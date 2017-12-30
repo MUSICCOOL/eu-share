@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row grey-tip">
+    <h3 class="text-center">注&nbsp;册</h3>
+    <div class="tip-bot-line"></div>
+    <div class="tip-show">
+        <div id="register-form" class="register-form" action-url="/user/doRegister" jump-url="/">
+            <table class="table">
+                <tr>
+                    <td class="reg-lable">用户名</td>
+                    <td><input type="text" class="form-control" id="reg-username" name="username" placeholder="用户名"
+                               required></td>
+                </tr>
+                <tr>
+                    <td class="reg-lable">昵　称</td>
+                    <td><input type="text" class="form-control" id="reg-nickname" name="nickname" placeholder="昵称"
+                               required></td>
+                </tr>
+                <tr>
+                    <td class="reg-lable">性　别</td>
+                    <td class="set-sex">
+                        <input type="radio" name="sex" value="1" {% if user.sex== 1 %}checked{% endif %}/>&nbsp;&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="sex" value="2" {% if user.sex== 2 %}checked{% endif %}/>&nbsp;&nbsp;女
+                    </td>
+                </tr>
+                <tr>
+                    <td class="reg-lable">邮　箱</td>
+                    <td><input type="email" class="form-control" id="reg-email" name="email" placeholder="邮箱" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="reg-lable">创建密码</td>
+                    <td><input type="password" class="form-control" id="reg-pwd" name="password" placeholder="密码"
+                               required></td>
+                </tr>
+                <tr>
+                    <td class="reg-lable">确认密码</td>
+                    <td><input type="password" class="form-control" id="reg-pwd-confirm" name="password_confirm"
+                               placeholder="确认密码" required></td>
+                </tr>
+                <tr>
+                    <td class="reg-lable">&nbsp;</td>
+                    <td>
+                        <button id="reg-btn" class="btn btn-primary reg-btn">注册</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="reg-lable">&nbsp;</td>
+                    <td><span class="text-danger" id="reg-msg"></span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

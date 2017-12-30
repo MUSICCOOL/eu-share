@@ -1,0 +1,149 @@
+{% extends "sidebase.html" %}
+{% block rightside %}
+<div>
+    <div class="row acc-pro-nav">
+        <h3>我的资产</h3>
+    </div>
+    <div class="row acc-set-middle">
+        <div class="acc-top">
+            <div class="acc-top-left">
+                <p>账户余额&nbsp;&nbsp;(E点币)&nbsp;&nbsp;</p>
+                <h1>{{ user.e_points }}</h1>
+            </div>
+            <div class="acc-top-right">
+                <a href="/account/recharge" class="btn btn-danger">充值</a>
+                <a href="/account/upvip" class="btn btn-info">升级会员</a>
+            </div>
+        </div>
+    </div>
+    <div class="row acc-mid">
+        <h3>交易记录</h3>
+    </div>
+    <div class="row acc-set-middle">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#income" aria-controls="income" role="tab"
+                                                      data-toggle="tab">收益记录</a></li>
+            <li role="presentation"><a href="#consumer" aria-controls="consumer" role="tab" data-toggle="tab">消费记录</a>
+            </li>
+            <li role="presentation"><a href="#order" aria-controls="order" role="tab" data-toggle="tab">订单记录</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content tab-content-pro" style="padding-top: 10px;">
+            <div role="tabpanel" class="tab-pane active" id="income">
+                {% if incomes is empty %}
+                <p class="text-center msg-tip">
+                    <small>您尚未有任何收益记录</small>
+                </p>
+                {% else %}
+                <table class="table">
+                    <tr>
+                        <th width="25%">项目</th>
+                        <th width="20%">来源用户</th>
+                        <th width="20%">收益类型</th>
+                        <th width="15%">收益(E点币)</th>
+                        <th width="20%">创建时间</th>
+                    </tr>
+                    {% for record in incomes %}
+                    <tr>
+                        <td width="25%">
+                            <a href="/project/show/pro_id/{{ record.pro_id }}">
+                                {% if record.pro_name | slice(50,1) != '' %}
+                                {{ record.pro_name | slice(0,50)}}&nbsp;...
+                                {% else %}
+                                {{ record.pro_name | slice(0,50)}}
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td width="20%"><a href="/user/show/user_id/{{ record.u_id }}">{{ record.u_nickname }}</a></td>
+                        <td width="20%">{{ record.type }}</td>
+                        <td width="15%">{{ record.e_points }}</td>
+                        <td width="20%">{{ record.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <div class="show-page">
+                    {% autoescape %}
+                    {{ paginator_i |raw }}
+                    {% endautoescape %}
+                </div>
+                {% endif %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="consumer">
+                {% if consumers is empty %}
+                <p class="text-center msg-tip">
+                    <small>您尚未有任何消费记录</small>
+                </p>
+                {% else %}
+                <table class="table">
+                    <tr>
+                        <th width="70%">项目</th>
+                        <th width="10%">消费类型</th>
+                        <th width="10%">消费(E点币)</th>
+                        <th width="10%">创建时间</th>
+                    </tr>
+                    {% for record in incomes %}
+                    <tr>
+                        <td width="70%">
+                            <a href="/project/show/pro_id/{{ record.pro_id }}">
+                                {% if record.pro_name | slice(50,1) != '' %}
+                                {{ record.pro_name | slice(0,50)}}&nbsp;...
+                                {% else %}
+                                {{ record.pro_name | slice(0,50)}}
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td width="10%">{{ record.type }}</td>
+                        <td width="10%">{{ record.e_points }}</td>
+                        <td width="10%">{{ record.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <div class="show-page">
+                    {% autoescape %}
+                    {{ paginator_c |raw }}
+                    {% endautoescape %}
+                </div>
+                {% endif %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="order">
+                {% if recharges is empty %}
+                <p class="text-center msg-tip">
+                    <small>您尚未有任何订单记录</small>
+                </p>
+                {% else %}
+                <table class="table">
+                    <tr>
+                        <th>订单ID</th>
+                        <th>订单类型</th>
+                        <th>转账单号后6位</th>
+                        <th>转账金额(元)</th>
+                        <th>订单状态</th>
+                        <th>备注信息</th>
+                        <th>转账金额(元)</th>
+                        <th>创建时间</th>
+                    </tr>
+                    {% for record in orders %}
+                    <tr>
+                        <td>{{ record.id }}</td>
+                        <td>{{ record.type }}</td>
+                        <td>{{ record.order_num }}</td>
+                        <td>{{ record.amount }}</td>
+                        <td>{{ record.status }}</td>
+                        <td>{{ record.remark }}</td>
+                        <td>{{ record.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <div class="show-page">
+                    {% autoescape %}
+                    {{ paginator_r |raw }}
+                    {% endautoescape %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

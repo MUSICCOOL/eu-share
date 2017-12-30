@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    {% if project.pro_name is not empty %}
+    <title>{{ project.pro_name }} - {{ site_set.site_title }}</title>
+    <meta name="keywords" content="{{ project.pro_keywords }},{{ site_set.site_keywords }}"/>
+    <meta name="description" content="{{ project.pro_intro }} - {{ site_set.site_description }}"/>
+    {% elseif artical.title is not empty %}
+    <title>{{ artical.title }} - {{ site_set.site_title }}</title>
+    <meta name="keywords" content="{{ artical.keywords }},{{ site_set.site_keywords }}"/>
+    <meta name="description" content="{{ artical.intro }} - {{ site_set.site_description }}"/>
+    {% elseif lesson.title is not empty %}
+    <title>{{ lesson.title }} - {{ site_set.site_title }}</title>
+    <meta name="keywords" content="{{ lesson.keywords }},{{ site_set.site_keywords }}"/>
+    <meta name="description" content="{{ lesson.intro }} - {{ site_set.site_description }}"/>
+    {% else %}
+    <title>{{ site_set.site_title }}</title>
+    <meta name="keywords" content="{{ site_set.site_keywords }}"/>
+    <meta name="description" content="{{ site_set.site_description }}"/>
+    {% endif %}
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="icon" href="../../../public/img/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="email=no">
+    <link href="../../../public/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../../../public/css/front.css" rel="stylesheet" type="text/css"/>
+
+    <script language="JavaScript" src="../../../public/js/jquery-3.1.1.min.js"></script>
+    <script language="JavaScript" src="../../../public/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid wrapper">
+    <div class="row">
+        <nav class="navbar navbar-fixed-top top-menu">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        <img alt="{{ site_set.site_name }}" src="../../../public/img/logo3.png">
+                    </a>
+                </div>
+                <ul class="nav navbar-nav navbar-left menu">
+                    <li id="home"><a href="/">首页</a></li>
+                    <li id="project"><a href="/project/lists">项目</a></li>
+                    <li id="blog"><a href="/blog/lists" target="_blank">博客</a></li>
+                </ul>
+
+                <div class="nav navbar-nav navbar-left top-search">
+                    <form action="/project/search" method="post">
+                        <input type="text" name="search-text" class="form-control" placeholder="搜索您感兴趣的项目">
+                        <span class="glyphicon glyphicon-search search-icon"></span>
+                    </form>
+                </div>
+                <div class="nav navbar-nav navbar-right menu-func">
+                    {% if USERNAME is empty %}
+                    <!-- Button trigger modal -->
+                    <a class="login" href data-toggle="modal" data-target="#loginModal">登录</a>
+                    <a class="register" href="/user/register">注册</a>
+                    <!-- Modal -->
+                    <div class="modal fade login-model" id="loginModal" tabindex="-1" role="dialog"
+                         aria-labelledby="loginModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title text-left" id="myModalLabel">登录</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon-user">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                      </span>
+                                        <input type="text" class="form-control log-input" id="log-uname" name="username"
+                                               onkeypress="bindEntry()" aria-describedby="basic-addon-user"
+                                               placeholder="您的用户名或邮箱" maxlength="50" required/>
+                                    </div>
+                                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon-pwd">
+                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                      </span>
+                                        <input type="password" class="form-control log-input" id="log-pwd"
+                                               name="password" onkeypress="bindEntry()"
+                                               aria-describedby="basic-addon-pwd" placeholder="您的密码" required/>
+                                    </div>
+                                    <div class="notice">
+                                        <span class="pull-left"><small>没有账号？<a
+                                                href="/user/register">极速注册</a></small></span>
+                                        <span class="pull-right"><small><a
+                                                href="/user/pwdReset">忘记密码？</a></small></span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <span class="text-danger pull-left" id="log-msg"></span>
+                                    <div class="clearfix">&nbsp;</div>
+                                    <button id="log-btn" jump-url="{{ APP_DOMAIN }}" action-url="/login/doLogin"
+                                            type="button" class="btn btn-primary pull-left">立即登录
+                                    </button>
+                                    <div class="clearfix">&nbsp;</div>
+                                    <br/>
+                                    <div class="text-center">
+                                        <strong>{{ site_set.site_title }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="dropdown">
+                        <a href id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <img class="img-circle" src="{{ user.avatar }}" width="30px" height="30px">
+                            {% if user.nickname is empty%}
+                            {{ USERNAME }}
+                            {% else %}
+                            {{ user.nickname }}
+                            {% endif %}
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li><a href="/account/index"><span class="glyphicon glyphicon-tags"
+                                                               aria-hidden="true"></span>个人主页</a></li>
+                            <hr/>
+                            <li><a href="/account/account"><span class="glyphicon glyphicon-yen"
+                                                                 aria-hidden="true"></span>账务中心</a></li>
+                            <li><a href="/account/projectList"><span class="glyphicon glyphicon-list-alt"
+                                                                     aria-hidden="true"></span>我的项目</a></li>
+                            <li><a href="/account/service"><span class="glyphicon glyphicon-envelope"
+                                                                 aria-hidden="true"></span>客服中心</a></li>
+                            <hr/>
+                            <li><a href="/login/logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>退出</a>
+                            </li>
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="row top-banner"></div>
+    <div class="content row">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+<div class="container-fluid footer">
+    <div>
+        <h5>联系我们：<a style="color: white" href="mailto:eushare@yeah.net">eushare@yeah.net</a></h5>
+    </div>
+
+    <div>
+        &copy; 2017 版权所有:{{ site_set.site_title }}
+    </div>
+</div>
+<script language="JavaScript" src="../../../public/js/front.js"></script>
+</body>
+</html> 

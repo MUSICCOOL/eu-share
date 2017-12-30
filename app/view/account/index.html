@@ -1,0 +1,45 @@
+{% extends "sidebase.html" %}
+{% block rightside %}
+<div>
+    <div class="acc-header">
+        <div class="middle-info">
+            <div class="user-avatar">
+                <img src="{{ user.avatar }}"/>
+            </div>
+            <div class="user-info">
+                <h3>{{ user.nickname }}</h3>
+                <p>账户余额：{{ user.e_points }}&nbsp;E点币</p>
+            </div>
+            <div class="user-set">
+                <a href="/account/profile"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="acc-middle">
+        <div class="user-e">
+            <h4><span class="glyphicon glyphicon-yen" aria-hidden="true"></span>账户余额</h4>
+            <p><b>{{ user.e_points }}</b>E点币</p>
+            <hr/>
+            <a href="/account/recharge">充值</a>
+        </div>
+        <div class="user-p">
+            <h4><span class="glyphicon glyphicon-list" aria-hidden="true"></span>我的项目</h4>
+            <p><b>{{ pro_num }}</b>个项目</p>
+            <hr/>
+            <a href="/account/projectList">立即查看</a>
+        </div>
+        <div class="user-d">
+            <h4><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>我的下载</h4>
+            <p><b>{{ down_num }}</b>个项目</p>
+            <hr/>
+            <a href="/account/downList">立即查看</a>
+        </div>
+        <div class="user-r">
+            <h4><span class="glyphicon glyphicon-gift" aria-hidden="true"></span>我的打赏</h4>
+            <p><b>{{ reward_num }}</b>个打赏</p>
+            <hr/>
+            <a href="/account/rewardList">立即查看</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

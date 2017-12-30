@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <h4>站点设置</h4>
+    <hr/>
+</div>
+<div class="row">
+    <table class="table table-hover table-bordered table-set">
+        {% for key in siteKeys %}
+        <tr>
+            <td>{{ key.key_title }}</td>
+            <td>{{ key.key_value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="row">
+    <a href="/admin.php/site/update" class="btn btn-primary pull-right">修改</a>
+</div>
+{% endblock %}

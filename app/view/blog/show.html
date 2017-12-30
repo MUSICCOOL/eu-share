@@ -1,0 +1,61 @@
+{% extends "blogbase.html" %}
+{% block content %}
+
+<div class="row blog-cont">
+    <div class="blog-left">
+        <h4>{{ blog.title }}</h4><br/>
+        <small>关键词：{{ blog.keywords }}&nbsp;&nbsp;阅读数：{{ blog.read }}&nbsp;&nbsp;发布时间:{{ blog.created_at }}</small>
+        <hr/>
+        {% if blog.intro is not empty %}
+        <blockquote>
+            <p class="text-left">{{ blog.intro }}</p>
+            <footer class="text-right"><cite title="Source Title">摘要</cite></footer>
+        </blockquote>
+        <hr/>
+        {% endif %}
+        {% autoescape %}
+        {{ blog.content |raw }}
+        {% endautoescape %}
+        <div class="clearfix"></div>
+        <hr/>
+        <div class="bcomment">
+            <div class="bcomment-list">
+                <h5><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;评论</h5>
+                <div id="com-list" b_id="{{ blog.id }}" action-url="/bcomment/getList" page="1">
+                    <span id="get-msg"></span>
+                    <div id="com-list-show"></div>
+                    <p class="text-center"><a href="javascript:;" id="get-btn" class="text-center">查看更多</a></p>
+                </div>
+            </div>
+            <hr/>
+            <div class="bcomment-send">
+                <h5><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;发表评论</h5>
+                <div id="send-comment" b_id="{{ blog.id }}" class="send-comment" action-url="/bcomment/sendComment"
+                     user_id={{ user.user_id }}>
+                    <textarea id="send-box" name="comment" cols="100" rows="3" placeholder="发表评论(不得多于100字)"
+                              required></textarea>
+                    <div class="d-last d-last-bc">还能输入100字</div>
+                    <div class="clearfix"></div>
+                    <span id="send-msg" class="text-danger"></span>
+                    <p class="text-right">
+                        <button id="send-btn" class="btn btn-default">提交</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="blog-right">
+        <h4>阅读数排行</h4>
+        <hr/>
+        {% for blog in hot_blogs %}
+        <div class="blog-tip">
+            <small><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></small>
+            <span><a href="/blog/show/id/{{ blog.id }}">{{ blog.title }}</a></span>
+            <span><small>&nbsp;&nbsp;(阅读数：{{ blog.read }})</small></span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="clearfix"></div>
+<script language="JavaScript" src="../../../public/js/bcomment.js"></script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "sidebase.html" %}
+{% block rightside %}
+<div>
+    <div class="row acc-pro-nav">
+        <h3>客服中心</h3>
+    </div>
+    <div class="row acc-set-middle">
+        <div class="acc-top" style="height: 180px">
+            <p class="message-tip">亲：如果您在本平台遇到任何问题或者有什么好的建议，都可以联系我们，我们会积极为您服务</p>
+            <p>1、若升级vip或充值遇到问题，请标注以下信息：转账单号后6位，转账金额，订单类型(升级vip或充值)</p>
+            <p>2、若打赏，下载等涉及E点币操作，E点币变动不正确等，请注明相关信息，如什么操作，涉及的项目等</p>
+            <p>3、任何平台都是从小一点点发展起来的，遇到问题请您谅解，我们会积极改正，以求为大家提供更好的服务</p>
+            <p></p>
+        </div>
+    </div>
+    <div class="row acc-mid">
+        <h3>联系我们</h3>
+    </div>
+    <div class="row acc-set-middle">
+        <form class="form" action="/account/doConnect" method="post">
+            <div>
+                <table class="table">
+                    <tr>
+                        <td style="border: none">
+                            <input type="text" name="title" maxlength="50" placeholder="主题"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: none">
+                            <textarea id="connect" cols="80" rows="6" name="cont" style="width: 100%"
+                                      placeholder="内容"></textarea>
+                            <div class="d-last d-last-connect">还能输入500字</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: none" align="right"><input type="submit" style="width: 80px"
+                                                                      class="btn btn-primary" value="发 送"/></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

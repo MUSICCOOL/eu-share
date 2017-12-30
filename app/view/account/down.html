@@ -1,0 +1,46 @@
+{% extends "sidebase.html" %}
+{% block rightside %}
+<div>
+    <div class="row acc-pro-nav">
+        <h3>我的下载</h3>
+    </div>
+    <div class="row acc-set-middle" style="background-color: white">
+        {% if downs is empty %}
+        <p class="text-center msg-tip">
+            <small style="color: grey;">您还没有下载任何项目</small>
+        </p>
+        {% else %}
+        <table class="table">
+            <tr>
+                <th>项目</th>
+                <th>类型</th>
+                <th>花费E点币</th>
+                <th>下载时间</th>
+            </tr>
+            {% for down in downs %}
+            <tr>
+                <td width="20%">
+                    <a href="/project/show/pro_id/{{ down.project['pro_id'] }}" target="_blank">
+                        {% if down.project['name'] | slice(150,1) != '' %}
+                        {{ down.project['name'] | slice(0,150)}}&nbsp;...
+                        {% else %}
+                        {{ down.project['name'] | slice(0,150)}}
+                        {% endif %}
+                    </a>
+                </td>
+                <td>{{ down.project['type'] }}</td>
+                <td>{{ down.project['need_points'] }}</td>
+                <td>{{ down.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="show-page">
+            {% autoescape %}
+            {{ paginator_ok |raw }}
+            {% endautoescape %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

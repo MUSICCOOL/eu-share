@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ethan's blog</title>
+    <meta name="keywords" content="Ethan's blog"/>
+    <meta name="description" content="Ethan's blog, 个人技术博客"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="icon" href="../../../public/img/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="../../../public/img/favicon.ico" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="email=no">
+    <link href="../../../public/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../../../public/css/blog.css" rel="stylesheet" type="text/css"/>
+    <script language="JavaScript" src="../../../public/js/jquery-3.1.1.min.js"></script>
+    <script language="JavaScript" src="../../../public/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid header">
+    <div class="row">
+        <a href="/blog/lists"><h2><i>Ethan's Blog</i></h2></a>
+    </div>
+</div>
+<div class="containe-fluidr">
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+<div class="container-fluid footer">
+    <div class="link pull-left"><b>友情链接：</b><a href="http://eu-share.com">你分享</a></div>
+    <small class="pull-right">Ethan's Blog</small>
+</div>
+</body>
+</html> 

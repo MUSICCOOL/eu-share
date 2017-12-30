@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- 编辑器 -->
+<script language="JavaScript" src="../../../public/summernote/summernote.min.js"></script>
+<script language="JavaScript" src="../../../public/summernote/lang/summernote-zh-CN.min.js"></script>
+<link href="../../../public/summernote/summernote.css" rel="stylesheet" type="text/css"/>
+<!--web uploader-->
+<link rel="stylesheet" type="text/css" href="../../../public/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="../../../public/css/webuploader.css">
+
+<div class="mbody">
+    <p class="message-tip">项目上传后将由管理员进行审核，审核通过后才会展现在平台上</p>
+    <div id="pro-add-form" class="form-tip" action-url="/project/doAdd" jump-back-url="/project/lists">
+        <div class="form-group">
+            <label class="lable-tip" for="name">第一步: &nbsp;项目名称</label>
+            <input type="text" class="form-control" id="name" name="name" maxlength="20" style="width: 50% !important;"
+                   placeholder="请输入项目名称，1~20个字以内" required>
+        </div>
+        <div class="form-group intro-group">
+            <label class="lable-tip" for="intro">第二步: &nbsp;项目简介</label>
+            <textarea name="intro" class="form-control" id="intro" title="项目简介" maxlength="100"
+                      placeholder="请输入项目简介，100个字以内" required></textarea>
+            <div class="d-last d-last-intro">还能输入100字</div>
+        </div>
+        <div class="form-group">
+            <label class="lable-tip" for="type">第三步: &nbsp;我的项目类型</label>
+            <select class="form-control" id="type" name="type" style="width: 50% !important;" required>
+                <option value="" selected>请选择你的项目类型</option>
+                {% for type in types %}
+                <option value="{{ type.id }}">{{ type.name }}</option>
+                {% endfor %}
+                <option value="0">其他</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="lable-tip" for="need_points">第四步: &nbsp;项目下载所需E点</label>
+            <select class="form-control" id="need_points" name="need_points" style="width: 50% !important;" required>
+                <option value="0" selected>免费</option>
+                <option value="10">10点</option>
+                <option value="20">30点</option>
+                <option value="50">50点</option>
+                <option value="100">100点</option>
+                <option value="200">200点</option>
+                <option value="500">500点</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="lable-tip" for="imgs_urls">第五步: &nbsp;项目展示图片（可选）</label>
+            <!--dom结构部分-->
+            <div id="uploader">
+                <div class="queueList">
+                    <div id="dndArea" class="placeholder">
+                        <div id="filePicker"></div>
+                        <p>单张图片最大1Mb，共不得超3Mb，最多可有5张展示图</p>
+                    </div>
+                </div>
+                <div class="statusBar" style="display:none;">
+                    <div class="progress">
+                        <span class="text">0%</span>
+                        <span class="percentage"></span>
+                    </div>
+                    <div class="info"></div>
+                    <div class="btns">
+                        <div id="filePicker2"></div>
+                        <div class="uploadBtn">开始上传</div>
+                    </div>
+                </div>
+                <input id="imgs_urls" type="hidden" name="imgs_urls"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="lable-tip" for="desc">第六步: &nbsp;项目详细描述（可选）</label>
+            <textarea name="desc" class="summernote" id="desc" title="项目详细描述" style="position: absolute"
+                      placeholder="请输入项目详细描述（可选），30个段落以内"></textarea>
+            <div class="d-last d-last-desc">还能输入30段</div>
+        </div>
+        <div class="form-group">
+            <label class="lable-tip" for="desc">第七步: &nbsp;项目源文件上传</label>
+            <div class="uftip">
+                <p class="text-info">允许上传的文件格式为：{{ allowtypes }}</p>
+            </div>
+            <div id="fileuploader" class="wu-example">
+                <!--用来存放文件信息-->
+                <div id="thelist" class="uploader-list"></div>
+                <div class="btns" style="width: 100%">
+                    <div id="picker" style="float: left;display: inline;">选择文件</div>
+                    <button id="ctlBtn" class="btn btn-default" style="float: left;display: inline; margin: 2px 10px;">
+                        开始上传
+                    </button>
+                </div>
+                <div class="clearfix"></div>
+                <p class="or-tip">OR</p>
+                <div class="clearfix"></div>
+                <input type="text" id="file_url" name="file_url" value="" width="100%" maxlength="255"
+                       style="width: 60%; " class="form-control" placeholder="大文件请填写网络资源地址，例：http://xxx.com/xxxx.zip "/>
+            </div>
+            <button type="submit" id="pro_create" class="btn btn-primary btn-submit"><span
+                    class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>&nbsp;创建项目
+            </button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var $summernote = $('.summernote').summernote({
+        height: 200,
+        lang: 'zh-CN',
+        placeholder: '请输入项目详细描述（可选），30个段落以内', // 提示
+        //调用图片上传
+        callbacks: {
+            onImageUpload: function (files) {
+                sendFile($summernote, files[0]);
+            },
+            onFocus: function () {
+                $(".d-last-desc").show();
+                $("#desc").css("borderColor", "#B4E6FA");
+            },
+            onBlur: function () {
+                $(".d-last-desc").hide();
+                $("#desc").css("borderColor", "#A9A9A9");
+            },
+            onKeyup: function (e) {
+                var c = $("#desc").summernote('code').split("</p>");
+                c = $.grep(c, function (n) {
+                    return $.trim(n).length > 0;
+                })
+                if (c.length > 30) {
+                    cc = '';
+                    for (var i = 0; i < 30; i++) {
+                        cc += c[i] + "</p>";
+                    }
+                    $("#desc").summernote('code', cc);
+                }
+                var last = 30 - c.length;
+                if (last < 0) {
+                    last = 0;
+                }
+                $(".d-last-desc").text("还能输入" + last + "个段落");
+            }
+        },
+        // summernote自定义配置
+        toolbar: [
+            ['operate', ['undo', 'redo']],
+            ['magic', ['style']],
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['para', ['height', 'fontsize', 'ul', 'ol', 'paragraph']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['color', ['color']],
+            //['insert', ['picture', 'link', 'table', 'hr']],
+            ['insert', ['link', 'table', 'hr']],
+            ['layout', ['fullscreen']],
+        ]
+    });
+
+    //ajax上传图片
+    function sendFile($summernote, file) {
+        var formData = new FormData();
+        formData.append("file", file);
+        $.ajax({
+            url: "/project/imageUpload",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function (data) {
+                $summernote.summernote('insertImage', data, function ($image) {
+                    $image.attr('src', data);
+                });
+            }
+        });
+    }
+</script>
+<script type="text/javascript" src="../../../public/webuploader/webuploader.js"></script>
+<script language="JavaScript" src="../../../public/js/webuploader.js"></script>
+<script language="JavaScript" src="../../../public/js/webuploader-file.js"></script>
+{% endblock %}

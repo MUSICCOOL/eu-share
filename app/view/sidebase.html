@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row grey-deeper-tip">
+    <div class="container">
+        <div class="two-side">
+            <div class="side-left">
+                <ul class="nav">
+                    <li id="profile"><a href="/account/index"><span class="glyphicon glyphicon-home"
+                                                                    aria-hidden="true"></span>首页</a></li>
+                    <li id="account"><a href="/account/account"><span class="glyphicon glyphicon-yen"
+                                                                      aria-hidden="true"></span>账务中心</a></li>
+                    <li id="project"><a href="/account/projectList"><span class="glyphicon glyphicon-list"
+                                                                          aria-hidden="true"></span>我的项目</a></li>
+                    <li id="service"><a href="/account/service"><span class="glyphicon glyphicon-envelope"
+                                                                      aria-hidden="true"></span>客服中心</a></li>
+                </ul>
+            </div>
+            <div class="side-right">
+                {% block rightside %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link href="../../../public/pointlike/like.css" rel="stylesheet" type="text/css"/>
+<script language="JavaScript" src="../../../public/pointlike/like.js"></script>
+
+<div class="row grey-deeper-tip">
+    <div class="container">
+        <div class="noside white-bg">
+            <div class="page-header">
+                <h3><a href="/project/show/pro_id/{{ project.pro_id }}">{{ project.name }}</a></h3>
+                <p class="text-primary">
+                    开发者：<a class="user-bot-tip text-primary" href="/user/show/user_id/{{ project.user_id }}">{{
+                    project.user.nickname }}</a>&nbsp;&nbsp;
+                    下载数：{{ project.down }}&nbsp;&nbsp;
+                    发布日期：{{ project.created_at | date("Y-m-d") }}
+                </p>
+            </div>
+            {% if project.imgs[0] is not empty %}
+            <div id="carousel-example-generic" class="carousel slide noside-tip" data-ride="carousel">
+                <!-- Indicators -->
+                <!--<ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+                </ol>-->
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <a href="{{ project.imgs[0] }}" target="_blank"><img src="{{ project.imgs[0] }}"
+                                                                             class="show-img img-responsive"
+                                                                             width="100%" height="400px"
+                                                                             alt="{{ project.name }} - {{ project.intro }}"
+                                                                             style="height: 400px"></a>
+                        <div class="carousel-caption"></div>
+                    </div>
+                    {% for img in project.imgs %}
+                    {% if img != project.imgs[0] %}
+                    <div class="item">
+                        <a href="{{ img }}" target="_blank"><img src="{{ img }}" class="show-img img-responsive"
+                                                                 width="100%" height="400px"
+                                                                 alt="{{ project.name }} - {{ project.intro }}"
+                                                                 style="height: 400px"></a>
+                        <div class="carousel-caption"></div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            {% else %}
+            <p class="text-center">该开发者没有上传任何项目图片哦！</p>
+            {% endif %}
+            <hr/>
+            <div class="noside-tip">
+                <h4>简介</h4>
+                {{ project.intro }}
+            </div>
+            <hr/>
+            <div class="noside-tip">
+                <h4>详情</h4>
+                {% autoescape %}
+                {{ project.desc |raw }}
+                {% endautoescape %}
+            </div>
+        </div>
+
+        <div class="down-file noside-tip white-bg">
+            <p><a href="/project/download/pro_id/{{ project.pro_id }}" class="btn btn-info">
+                源文件下载&nbsp;(&nbsp;价格：<b class="text-danger">{{ project.need_points }}</b>&nbsp;E点币&nbsp;)
+            </a></p>
+        </div>
+
+        <div class="share-btn-list white-bg">
+            <div class="bdsharebuttonbox">
+                <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_sqq" data-cmd="sqq"
+                                                                    title="分享到QQ好友"></a>
+                <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+                <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+                <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+            </div>
+            <script>
+                window._bd_share_config = {
+                    "common": {
+                        "bdSnsKey": {},
+                        "bdText": "{{ project.name }}",
+                        "bdDesc": "{{ project.intro }}",
+                        "bdUrl": "/project/show/pro_id/{{ project.pro_id }}",
+                        "bdPic": "{{ APP_DOMAIN }}{{ project.imgs[0] }}",
+                        "bdMini": "2",
+                        "bdMiniList": false,
+                        "bdStyle": "1", "bdSize": "32"
+                    },
+                    "share": {},
+                    "image": {
+                        "viewList": ["sqq", "weixin", "tsina", "linkedin", "fbook", "twi"],
+                        "viewText": "分享到：",
+                        "viewSize": "24"
+                    },
+                    "selectShare": {
+                        "bdContainerClass": "do not set",
+                        "bdSelectMiniList": ["sqq", "weixin", "tsina", "linkedin", "fbook", "twi"]
+                    }
+                };
+                with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+
+
+        </div>
+        <hr/>
+        <div class="text-center btn-like-reward">
+            <div class="praise btn-like">
+                <span id="praise" pro_id="{{ project.pro_id }}"><img src="../../../public/pointlike/like.png"
+                                                                     id="praise-img"></span>
+                <span id="praise-txt">已有{{ project.like }}人点赞</span>
+                <span id="add-num"><em>+1</em></span>
+            </div>
+
+            <div class="praise btn-reward">
+                <span id="praise-reward" data-toggle="modal" data-target="#rewardModal"><img
+                        src="../../../public/pointlike/reward.png" id="praise-img-reward"></span>
+                <span id="praise-txt-reward">已有{{ project.reward }}人打赏</span>
+            </div>
+        </div>
+        <div class="modal fade login-model reward-model" id="rewardModal" tabindex="-1" role="dialog"
+             aria-labelledby="rewardModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-left" id="myModalLabel">打赏（E点币）</h4>
+                    </div>
+                    <hr/>
+                    <div class="modal-body">
+                        <span class="reward-click reward-bg"><input type="radio" name="radio" value="10"
+                                                                    checked>10点</span>
+                        <span class="reward-click"><input type="radio" name="radio" value="30">30点</span>
+                        <span class="reward-click"><input type="radio" name="radio" value="50">50点</span>
+                        <span class="reward-click"><input type="radio" name="radio" value="100">100点</span>
+                        <span class="reward-click"><input type="radio" name="radio" value="200">200点</span>
+                        <span class="reward-click"><input type="radio" name="radio" value="500">500点</span>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="text-danger pull-left" id="log-msg"></span>
+                        <div class="btn-group">
+                            <button id="reward" class="btn btn-reward" pro_id="{{ project.pro_id }}" e_points="10"
+                                    u_id="{{ project.user_id }}" action-url="/project/doReward" type="button">打赏
+                            </button>
+                            <a class="recharge" href="/account/recharge">我要充值</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <!--<div class="text-center btn-like-reward">
+            <div class="btn-like">
+                <p><a href="javascript:;" class="praise" id="praise-like"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;点赞</a></p>
+                <p><span class="praise-txt" id="praise-txt-like">已有{{ project.like }}人点赞</span></p>
+                <p><span id="add-num-like"><em>+1</em></span></p>
+            </div>
+
+            <div class="btn-reward">
+                <p><a href="#" class="praise" id="praise-reward"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span>&nbsp;打赏</a></p>
+                <p><span class="praise-txt" id="praise-txt-reward">已有{{ project.reward }}人打赏</span></p>
+            </div>
+        </div>-->
+        <hr/>
+        <div class="comment-list white-bg">
+            <h5><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;评论</h5>
+            <div id="com-list" pro_id="{{ project.pro_id }}" action-url="/comment/showComments" page="1">
+                <span id="get-msg"></span>
+                <div id="com-list-show"></div>
+                <p class="text-center"><a href="javascript:;" id="get-btn" class="text-center">查看更多</a></p>
+            </div>
+        </div>
+        <div class="comment-list white-bg">
+            <h5><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;发表评论</h5>
+            <div id="send-comment" pro_id="{{ project.pro_id }}" class="send-comment" action-url="/comment/sendComment">
+                <textarea id="send-box" name="comment" rows="3" placeholder="发表评论(不得多于100字)" required></textarea>
+                <div class="d-last d-last-comment">还能输入100字</div>
+                <span id="send-msg" class="text-danger"></span>
+                <p class="text-right">
+                    <button id="send-btn" class="btn btn-default">提交</button>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="JavaScript" src="../../../public/js/comment.js"></script>
+{% endblock %}

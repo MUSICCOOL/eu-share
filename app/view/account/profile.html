@@ -1,0 +1,208 @@
+{% extends "sidebase.html" %}
+{% block rightside %}
+<div>
+    <div class="row acc-nav">
+        <small><a href="/account/index"> 首页</a>&nbsp;>&nbsp;个人信息设置</small>
+    </div>
+    <div class="row acc-set-middle">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#profileset" aria-controls="profileset" role="tab"
+                                                      data-toggle="tab">基本设置</a></li>
+            <li role="presentation"><a href="#avatar" aria-controls="avatar" role="tab" data-toggle="tab">头像设置</a></li>
+            <li role="presentation"><a href="#privacy" aria-controls="privacy" role="tab" data-toggle="tab">隐私设置</a>
+            </li>
+            <li role="presentation"><a href="#changepwd" aria-controls="changepwd" role="tab" data-toggle="tab">修改密码</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="profileset">
+                <form class="form" action="/account/profileSet" method="post">
+                    <table class="table">
+                        <tr>
+                            <td class="set-lable">昵称</td>
+                            <td><input type="text" name="nickname" maxlength="20" value="{{ user.nickname }}" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="set-lable">性别</td>
+                            <td class="set-sex">
+                                <input type="radio" name="sex" value="1" {% if user.sex== 1 %}checked{% endif %}/>男&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="sex" value="2" {% if user.sex== 2 %}checked{% endif %}/>女
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="set-lable">邮箱</td>
+                            <td class="set-email"><input type="email" name="email" maxlength="50"
+                                                         value="{{ user.email }}" required></td>
+                        </tr>
+                        <tr>
+                            <td class="set-lable">学校/公司</td>
+                            <td><input type="text" name="org" maxlength="50" value="{{ user.org }}" required></td>
+                        </tr>
+                        <tr>
+                            <td class="set-lable">地址</td>
+                            <td>
+                                <select class="add-select" name="province" pro_name="{{ user.province }}"
+                                        id="pro"></select>
+                                <select class="add-select" name="city" city_name="{{ user.city }}" id="city"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="set-lable">简介</td>
+                            <td class="set-intro">
+                                <textarea id="intro" class="intro" name="intro" rows="3" placeholder="可以简单的描述自己">{{ user.intro }}</textarea>
+                                <div class="d-last d-last-intro">还能输入100字</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="set-lable">&nbsp;</td>
+                            <td>
+                                <input type="submit" class="btn btn-default set-btn"
+                                       style="color: white; padding: 8px 16px" value="保&nbsp;存"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="avatar">
+                <link href="../../../public/avatarup/cropper.min.css" rel="stylesheet" type="text/css"/>
+                <link href="../../../public/avatarup/sitelogo.css" rel="stylesheet" type="text/css"/>
+                <script language="JavaScript" src="../../../public/avatarup/jquery.min.js"></script>
+                <script language="JavaScript" src="../../../public/avatarup/cropper.min.js"></script>
+                <script language="JavaScript" src="../../../public/avatarup/bootstrap.min.js"></script>
+                <script language="JavaScript" src="../../../public/avatarup/sitelogo.js"></script>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div id="crop-avatar" class="col-md-6">
+                            <div class="avatar-view" title="修改头像">
+                                <img src="{{ user.avatar }}" alt="avatar">
+                            </div>
+                            <br/>
+                            <p>支持jpg、gif、png格式图片，上传文件大小不超过2MB</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label"
+                     role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <form class="avatar-form" action="/account/avatarSet" enctype="multipart/form-data"
+                                  method="post">
+                                <div class="modal-header">
+                                    <button class="close" data-dismiss="modal" type="button">&times;</button>
+                                    <h4 class="modal-title" id="avatar-modal-label">修改头像</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="avatar-body">
+                                        <div class="avatar-upload">
+                                            <input class="avatar-src" name="avatar_src" type="hidden">
+                                            <input class="avatar-data" name="avatar_data" type="hidden">
+                                            <label for="avatarInput">图片上传</label>
+                                            <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <div class="avatar-wrapper"></div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="avatar-preview preview-lg"></div>
+                                                <div class="avatar-preview preview-md"></div>
+                                                <div class="avatar-preview preview-sm"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row avatar-btns">
+                                            <div class="col-md-9">
+                                                <div class="btn-group">
+                                                    <button class="btn" data-method="rotate" data-option="-90"
+                                                            type="button" title="Rotate -90 degrees"><i
+                                                            class="fa fa-undo"></i> 向左旋转
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button class="btn" data-method="rotate" data-option="90"
+                                                            type="button" title="Rotate 90 degrees"><i
+                                                            class="fa fa-repeat"></i> 向右旋转
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-success btn-block avatar-save" type="submit"><i
+                                                        class="fa fa-save"></i> 保存修改
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="privacy">
+                <div class="pri-cont">
+                    <form action="/account/privacySet" method="post">
+                        <table class="table">
+                            <tr>
+                                <td class="set-lable">邮箱</td>
+                                <td class="set-pri">
+                                    <input type="radio" name="pri_email" value="0" {% if user.pri_email== 0 %}checked{%
+                                           endif %}/>不可见&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name="pri_email" value="1" {% if user.pri_email== 1 %}checked{%
+                                           endif %}/>可见
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="set-lable">学校/公司</td>
+                                <td class="set-pri">
+                                    <input type="radio" name="pri_org" value="0" {% if user.pri_org== 0 %}checked{%
+                                           endif %}/>不可见&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name="pri_org" value="1" {% if user.pri_org== 1 %}checked{%
+                                           endif %}/>可见
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="set-lable">&nbsp;</td>
+                                <td>
+                                    <input type="submit" value="保存" class="btn btn-pri"
+                                           style="color: white; padding: 8px 16px" value="保&nbsp;存"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="changepwd">
+                <form class="form" action="/account/pwdSet" method="post">
+                    <table class="table">
+                        <tr>
+                            <td class="set-lable">原始密码</td>
+                            <td><input type="password" name="old_pwd" maxlength="20" required></td>
+                        </tr>
+                        <tr>
+                            <td class="set-lable">新密码</td>
+                            <td><input type="password" name="new_pwd" maxlength="20" required></td>
+                        </tr>
+                        <tr>
+                            <td class="set-lable">确认新密码</td>
+                            <td><input type="password" name="c_new_pwd" maxlength="20" required></td>
+                        </tr>
+                        <tr>
+                            <td class="set-lable">&nbsp;</td>
+                            <td>
+                                <input type="submit" class="btn btn-default set-btn"
+                                       style="color: white; padding: 8px 16px" value="保&nbsp;存"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="JavaScript" src="../../../public/js/address.js"></script>
+{% endblock %}

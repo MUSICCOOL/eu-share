@@ -1,0 +1,26 @@
+{% extends "sidebase.html" %}
+{% block rightside %}
+<div>
+    <h5><span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;&nbsp;修改密码</h5>
+    <hr/>
+    <form action="{{ BASE_URL }}?c=account&a=doPwdSet" method="post">
+        <div class="form-group">
+            <label for="old_password"><b>原密码　</b></label>
+            <input type="password" class="form-control" id="old_password" name="old_password" value="" placeholder="原密码"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="new_password"><b>新密码　</b></label>
+            <input type="password" class="form-control" id="new_password" name="new_password" value="" placeholder="新密码"
+                   required>
+        </div>
+        <div class="form-group">
+            <label for="conf_password"><b>确认密码</b></label>
+            <input type="password" class="form-control" id="conf_password" name="conf_password" value=""
+                   placeholder="确认密码" required>
+        </div>
+        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span>&nbsp;修改
+        </button>
+    </form>
+</div>
+{% endblock %}

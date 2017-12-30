@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row grey-deeper-tip" style="margin-top: -80px">
+    <div class="container">
+        <div class="acc-header" style="width: 100%">
+            <div class="middle-info">
+                <div class="user-avatar">
+                    <img src="{{ pro_user.avatar }}"/>
+                </div>
+                <div class="user-info">
+                    <h3>{{ pro_user.nickname }}</h3>
+                    <p style="margin-top: 20px">
+                        <small>简介：{{ pro_user.intro }}</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="noside white-bg">
+            <div class="noside-tip">
+                <table class="table">
+                    <tr>
+                        <td style="border: none">邮箱：{{ pro_user.email }}</td>
+                        <td style="border: none">性别：{{ pro_user.sex }}</td>
+                    </tr>
+                    <tr>
+                        <td style="border: none">地址：{{ pro_user.province }}&nbsp;{{ pro_user.city }}</td>
+                        <td style="border: none">学校/公司：{{ pro_user.org }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border: none">简介:&nbsp;&nbsp;{{ pro_user.intro }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="noside-tip">
+                <h4>他（她）发布的项目</h4>
+                <table class="table">
+                    {% for project in projects %}
+                    <tr>
+                        <td align="left"><a href="/project/show/pro_id/{{ project.pro_id }}" target="_blank">{{
+                            project.name }}</a></td>
+                        <td align="right"><a href="/project/show/pro_id/{{ project.pro_id }}" target="_blank">{{
+                            project.created_at }}</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="JavaScript" src="../../../public/js/comment.js"></script>
+{% endblock %}

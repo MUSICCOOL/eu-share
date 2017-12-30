@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row grey-deeper-tip">
+    <div class="container noside white-bg">
+        <div>
+            <div class="page-header">
+                <h3><a href="/project/show/pro_id/{{ project.pro_id }}">{{ project.name }}</a></h3>
+                <p class="text-primary">
+                    开发者：<a class="user-bot-tip text-primary" href="/user/show/user_id/{{ project.user_id }}">{{
+                    project.user.nickname }}</a>&nbsp;&nbsp;
+                    下载数：{{ project.down }}&nbsp;&nbsp;
+                    发布日期：{{ project.created_at | date("Y-m-d") }}
+                </p>
+            </div>
+            <div class="text-center">
+                <a href="javascript:;" target="_blank" class="btn btn-success btn-lg text-center down-btn"
+                   action-url="/project/doDown" pro_id="{{ project.pro_id }}">源文件下载</a>
+            </div>
+            <br/><br/>
+            <h4 class="text-center" id="message"></h4>
+            <br/>
+            <hr/>
+            <p> 注意：</p>
+            <p> 您目前账户余额为&nbsp;&nbsp;<b class="text-danger">{{ user.e_points }}&nbsp;E点币</b></p>
+            <p> 该文件下载需花费&nbsp;&nbsp;<b class="text-danger">{{ project.need_points }}&nbsp;E点币</b>&nbsp;&nbsp;<small
+                    class="text-success">(&nbsp;文件重复下载不收费&nbsp;)
+            </small>
+            </p>
+            <b><i class="text-primary text-right"> *&nbsp;请尊重作者的劳动成果，未经允许，请勿将本平台所下载文件进行传播</i></b>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- 编辑器 -->
+<script language="JavaScript" src="{{ BASE_URL }}public/summernote/summernote.min.js"></script>
+<script language="JavaScript" src="{{ BASE_URL }}public/summernote/lang/summernote-zh-CN.min.js"></script>
+<link href="{{ BASE_URL }}public/summernote/summernote.css" rel="stylesheet" type="text/css"/>
+
+<div class="row">
+    <a class="btn btn-primary" href="/admin.php/blog/index">返回</a>
+</div>
+<br/>
+<div calss="row">
+    <form class="form-horizontal" action="/admin.php/blog/doAdd" method="post">
+        <div class="form-group">
+            <label for="title" class="col-sm-2 control-label">标题</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" name="title" placeholder="标题" maxlength="50"
+                       value="{{ blog.title }}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="keywords" class="col-sm-2 control-label">关键词</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="keywords" name="keywords" placeholder="关键词" maxlength="50"
+                       value="{{ blog.keywords }}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="intro" class="col-sm-2 control-label">摘要</label>
+            <div class="col-sm-10">
+                <textarea name="intro" class="form-control" id="intro" title="摘要">{{ blog.intro }}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="content" class="col-sm-2 control-label">内容</label>
+            <div class="col-sm-10">
+                <textarea name="content" class="summernote" id="content" title="内容">{{ blog.content }}</textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary ">发布</button>
+                <button type="reset" class="btn btn-default">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    var $summernote = $('.summernote').summernote({
+        height: 400,
+        lang: 'zh-CN',
+        placeholder: '请输入内容', // 提示
+        //调用图片上传
+        callbacks: {
+            onImageUpload: function (files) {
+                sendFile($summernote, files[0]);
+            }
+        },
+        // summernote自定义配置
+        toolbar: [
+            ['operate', ['undo', 'redo']],
+            ['magic', ['style']],
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['para', ['height', 'fontsize', 'ul', 'ol', 'paragraph']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['color', ['color']],
+            ['insert', ['picture', 'video', 'link', 'table', 'hr']],
+            ['layout', ['fullscreen', 'codeview']],
+        ]
+    });
+
+    //ajax上传图片
+    function sendFile($summernote, file) {
+        var formData = new FormData();
+        formData.append("file", file);
+        $.ajax({
+            url: "/admin.php/blog/imageUpload",//路径是你控制器中上传图片的方法，下面controller里面我会写到
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function (data) {
+                $summernote.summernote('insertImage', data, function ($image) {
+                    $image.attr('src', data);
+                });
+            }
+        });
+    }
+</script>
+{% endblock %}

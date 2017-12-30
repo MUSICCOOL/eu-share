@@ -1,0 +1,114 @@
+{% extends "sidebase.html" %}
+{% block rightside %}
+<div>
+    <div class="row acc-pro-nav">
+        <h3>账户充值</h3>
+    </div>
+    <div class="row acc-set-middle">
+        <div class="acc-top-upvip">
+            <div class="vip-choose">
+                <a href="javascript:;" class="rec-click vip-bg" rec-type="10">100 E点币</a>
+                <a href="javascript:;" class="rec-click" rec-type="20">200 E点币</a>
+                <a href="javascript:;" class="rec-click" rec-type="50">500 E点币</a>
+                <a href="javascript:;" class="rec-click" rec-type="100">1000 E点币</a>
+                <div class="clearfix"></div>
+                <div class="btn-vip" id="doup" rec-type="10" url="/order/createOrder">
+                    <button type="button" id="doup-btn" class="btn btn-info" data-toggle="modal"
+                            data-target=".bs-example-modal-lg10">账户充值
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg10" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content upvip-model">
+                <div class="modal-header">
+                    <h4>账户充值&nbsp;&nbsp;(&nbsp;<span class="text-warning">注：付款成功后请点击'已完成付款'按钮</span>&nbsp;)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="pay-cont">
+                        <div class="pay-code"><img src="../../../public/img/pay/z10.png"/></div>
+                        <div class="pay-code"><img src="../../../public/img/pay/w10.png"/></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <hr/>
+                    <p class="text-left">请输入转账单号后6位：<input id="order-type-10" type="text" maxlength="6"
+                                                           placeholder="6位整数"/></p>
+                    <button class="uprec btn btn-submit">已完成付款？</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg20" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content upvip-model">
+                <div class="modal-header">
+                    <h4>账户充值&nbsp;&nbsp;(&nbsp;<span class="text-warning">注：付款成功后请点击'已完成付款'按钮</span>&nbsp;)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="pay-cont">
+                        <div class="pay-code"><img src="../../../public/img/pay/z20.png"/></div>
+                        <div class="pay-code"><img src="../../../public/img/pay/w20.png"/></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="modal-footer">
+                    <hr/>
+                    <p class="text-left">请输入转账单号后6位：<input id="order-type-20" type="text" maxlength="6"
+                                                           placeholder="6位整数"/></p>
+                    <button class="uprec btn btn-submit">已完成付款？</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg50" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content upvip-model">
+                <div class="modal-header">
+                    <h4>账户充值&nbsp;&nbsp;(&nbsp;<span class="text-warning">注：付款成功后请点击'已完成付款'按钮</span>&nbsp;)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="pay-cont">
+                        <div class="pay-code"><img src="../../../public/img/pay/z50.png"/></div>
+                        <div class="pay-code"><img src="../../../public/img/pay/w50.png"/></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <hr/>
+                    <p class="text-left">请输入转账单号后6位：<input id="order-type-50" type="text" maxlength="6"
+                                                           placeholder="6位整数"/></p>
+                    <button class="uprec btn btn-submit">已完成付款？</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg100" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content upvip-model">
+                <div class="modal-header">
+                    <h4>账户充值&nbsp;&nbsp;(&nbsp;<span class="text-warning">注：付款成功后请点击'已完成付款'按钮</span>&nbsp;)</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="pay-cont">
+                        <div class="pay-code"><img src="../../../public/img/pay/z100.png"/></div>
+                        <div class="pay-code"><img src="../../../public/img/pay/w100.png"/></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <hr/>
+                    <p class="text-left">请输入转账单号后6位：<input id="order-type-100" type="text" maxlength="6"
+                                                           placeholder="6位整数"/></p>
+                    <button class="uprec btn btn-submit">已完成付款？</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row acc-set-middle">
+        <p class="text-danger"></p>
+        <p></p>
+    </div>
+</div>
+
+{% endblock %}

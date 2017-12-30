@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row grey-tip">
+    <h3 class="text-center">密码重置 Step1</h3>
+    <div class="tip-bot-line"></div>
+    <div class="tip-show">
+        <form class="register-form" action="{{ BASE_URL }}?c=user&a=doPwdResetEmail" method="post">
+            <div class="form-group">
+                <label for="email"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;&nbsp;请输入你的邮箱</label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="邮箱" required>
+            </div>
+            <div class="clearfix"></div>
+            <input class="btn btn-primary pull-right" type="submit" value="-> 发送密码重置邮件"/>
+        </form>
+    </div>
+</div>
+{% endblock %}

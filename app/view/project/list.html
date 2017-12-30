@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row grey-tip">
+    <div class="container pro-list-out text-center">
+        <a class="btn pro-up-sm" href="/project/add">我要上传项目</a>
+        <hr/>
+        <div>
+            <!--<div class="white-bg search-tip">
+                <form action="/project/search" method="post">
+                    <p class="s-type">类型&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a class="active" href="#">全部</a>&nbsp;&nbsp;
+                        {% for type in types %}
+                        <a href="#">{{ type.name }}</a>&nbsp;&nbsp;
+                        {% endfor %}
+                    </p>
+                    <hr />
+                    <p class="s-sort">排序&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a class="active" href="#">默认</a>
+                        <a href="#">下载量</a>
+                        <a href="#">点赞数</a>
+                        <a href="#">打赏人数</a>
+                    </p>
+                </form>
+            </div>
+            <br />-->
+            {% if projects is empty %}
+            <p class="grey-tip" style="color: grey">抱歉，没有找到符合您条件的项目</p>
+            {% else %}
+            {% for project in projects %}
+            <table class="table pro-list text-left">
+                <tr>
+                    <td width="12%" class="pro-user">
+                        <a href="/user/show/user_id/{{ project.user_id }}">
+                            <img class="img-circle" src="{{ project.user.avatar }}" width="80px" height="80px"/>
+                        </a>
+                        <p><a href="/user/show/user_id/{{ project.user_id }}" class="text-primary">
+                            <small>{{ project.user.nickname }}</small>
+                        </a></p>
+                    </td>
+                    <td width="84%" class="pro-info">
+                        <h4><a href="/project/show/pro_id/{{ project.pro_id }}">{{ project.name }}</a></h4>
+                        <div class="pull-left">
+                            <small>
+                                下载量：{{ project.down }}&nbsp;&nbsp;
+                                点赞数：{{ project.like }}&nbsp;&nbsp;
+                                类型：{{ project.type }}&nbsp;&nbsp;
+                                发布时间：{{ project.created_at | date("Y-m-d") }}
+                            </small>
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr/>
+                        <div class="pro-info-left">
+                            <p class="intro">
+                                <small>简介：
+                                    {% if project.pro_intro | slice(100,1) != '' %}
+                                    <a href="/project/show/pro_id/{{ project.pro_id }}">{{ project.intro |
+                                        slice(0,100)}}&nbsp;...</a>
+                                    {% else %}
+                                    <a href="/project/show/pro_id/{{ project.pro_id }}">{{ project.intro |
+                                        slice(0,100)}}</a>
+                                    {% endif %}
+                                </small>
+                            </p>
+                        </div>
+                    </td>
+                    <td width="2%" class="pro-mid-hr">
+                        <div class="vertical-border">&nbsp;</div>
+                    </td>
+                    <td width="2%" class="pro-more">
+                        <div class="pro-info-right">
+                            <a href="/project/show/pro_id/{{ project.pro_id }}" class="btn">查看详情</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            {% endfor %}
+            <div class="row ">
+                {% autoescape %}
+                {{ paginator |raw }}
+                {% endautoescape %}
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+<script language="JavaScript" src="../../../public/js/comment.js"></script>
+{% endblock %}

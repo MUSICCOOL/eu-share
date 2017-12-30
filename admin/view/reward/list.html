@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <h4>打赏记录管理</h4>
+    <hr/>
+</div>
+<div class="row">
+    <button class="btn btn-sm btn-default select-all">全选</button>
+    <button class="btn btn-sm btn-default cancel-all">取消</button>
+    <button class="btn btn-sm btn-danger del-all" url="/admin.php/like/delete" back_url="/admin.php/reward/index">删除
+    </button>
+    <table class="table table-hover table-bordered table-set">
+        <tr>
+            <th>&nbsp;</th>
+            <th>用户ID</th>
+            <th>项目ID</th>
+            <th>打赏(E点币)</th>
+            <th>创建时间</th>
+            <th>更新时间</th>
+            <th>操作</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td><input type="checkbox" name="list-checked" value="{{ record.id }}"/></td>
+            <td>{{ record.user_id }}</td>
+            <td>{{ record.pro_id }}</td>
+            <td>{{ record.reward_num }}</td>
+            <td>{{ record.updated_at }}</td>
+            <td>{{ record.created_at }}</td>
+            <td>
+                <button class="btn btn-sm btn-danger del-btn" url="/admin.php/reward/delete"
+                        back_url="/admin.php/reward/index" id={{ record.id }}>
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="row">
+    {% autoescape %}
+    {{ paginator |raw }}
+    {% endautoescape %}
+</div>
+{% endblock %}

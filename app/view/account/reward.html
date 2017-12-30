@@ -1,0 +1,46 @@
+{% extends "sidebase.html" %}
+{% block rightside %}
+<div>
+    <div class="row acc-pro-nav">
+        <h3>我的打赏</h3>
+    </div>
+    <div class="row acc-set-middle" style="background-color: white">
+        {% if rewards is empty %}
+        <p class="text-center msg-tip">
+            <small style="color: grey;">您还没有打赏任何项目</small>
+        </p>
+        {% else %}
+        <table class="table">
+            <tr>
+                <th>项目</th>
+                <th>类型</th>
+                <th>打赏数额(E点币)</th>
+                <th>打赏时间</th>
+            </tr>
+            {% for reward in rewards %}
+            <tr>
+                <td width="20%">
+                    <a href="/project/show/pro_id/{{ reward.project['pro_id'] }}" target="_blank">
+                        {% if reward.project['name'] | slice(150,1) != '' %}
+                        {{ reward.project['name'] | slice(0,150)}}&nbsp;...
+                        {% else %}
+                        {{ reward.project['name'] | slice(0,150)}}
+                        {% endif %}
+                    </a>
+                </td>
+                <td>{{ reward.project['type'] }}</td>
+                <td>{{ reward.reward_num }}</td>
+                <td>{{ reward.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="show-page">
+            {% autoescape %}
+            {{ paginator_ok |raw }}
+            {% endautoescape %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "blogbase.html" %}
+{% block content %}
+
+<div class="row blog-cont">
+    <div class="blog-left">
+        {% for blog in blogs %}
+        <div class="blog-tip">
+            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+            <span><a href="/blog/show/id/{{ blog.id }}">{{ blog.title }}</a></span>
+            <span><small>&nbsp;&nbsp;(阅读数：{{ blog.read }})</small></span>
+            <span class="pull-right">{{ blog.created_at | date("Y-m-d") }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="blog-right">
+        <h4>阅读数排行</h4>
+        <hr/>
+        {% for blog in hot_blogs %}
+        <div class="blog-tip">
+            <small><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></small>
+            <span><a href="/blog/show/id/{{ blog.id }}">{{ blog.title }}</a></span>
+            <span><small>&nbsp;&nbsp;(阅读数：{{ blog.read }})</small></span>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+<div class="row ">
+    {% autoescape %}
+    {{ paginator |raw }}
+    {% endautoescape %}
+</div>
+{% endblock %}

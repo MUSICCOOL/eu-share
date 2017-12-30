@@ -1,0 +1,155 @@
+{% extends "sidebase.html" %}
+{% block rightside %}
+<div>
+    <div class="row acc-pro-nav">
+        <h3>我的项目</h3>
+    </div>
+    <div class="row acc-set-middle">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#pro-status-ok" aria-controls="profile" role="tab"
+                                                      data-toggle="tab">审核通过</a></li>
+            <li role="presentation"><a href="#pro-status-no" aria-controls="pro-status-no" role="tab" data-toggle="tab">审核未通过</a>
+            </li>
+            <li role="presentation"><a href="#pro-status-without" aria-controls="pro-status-without" role="tab"
+                                       data-toggle="tab">等待审核</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content tab-content-pro" style="padding-top: 10px;">
+            <div role="tabpanel" class="tab-pane active" id="pro-status-ok">
+                {% if projects_ok is empty %}
+                <p class="text-center msg-tip">
+                    <small>您还没有上传任何项目</small>
+                </p>
+                {% else %}
+                <table class="table">
+                    <tr>
+                        <th width="20%">项目</th>
+                        <th width="10%">类型</th>
+                        <th width="10%">收获E点币</th>
+                        <th width="10%">价格(E点币)</th>
+                        <th width="10%">下载数</th>
+                        <th width="10%">点赞数</th>
+                        <th width="10%">打赏人数</th>
+                        <th width="10%">打赏总金额</th>
+                        <th width="10%">操作</th>
+                    </tr>
+                    {% for pro in projects_ok %}
+                    <tr>
+                        <td width="20%">
+                            <a href="/project/show/pro_id/{{ pro.pro_id }}">
+                                {% if pro.name | slice(50,1) != '' %}
+                                {{ pro.name | slice(0,50)}}&nbsp;...
+                                {% else %}
+                                {{ pro.name | slice(0,50)}}
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td width="10%">{{ pro.type }}</td>
+                        <td width="10%">{{ pro.e_points }}</td>
+                        <td width="10%">{{ pro.need_points }}</td>
+                        <td width="10%">{{ pro.down }}</td>
+                        <td width="10%">{{ pro.like }}</td>
+                        <td width="10%">{{ pro.reward }}</td>
+                        <td width="10%">{{ pro.reward_num }}</td>
+                        <td width="10%">
+                            <a href="/project/update/pro_id/{{ pro.pro_id }}" class="text-primary">编辑</a>
+                            <a class="text-warning del-btn" href="javascript:;" url="/project/delete"
+                               back_url="/account/projectList" id={{ pro.pro_id }}>删除</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <div class="show-page">
+                    {% autoescape %}
+                    {{ paginator_ok |raw }}
+                    {% endautoescape %}
+                </div>
+                {% endif %}
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="pro-status-no">
+                {% if projects_no is empty %}
+                <p class="text-center msg-tip">
+                    <small>您没有未通过审核的项目</small>
+                </p>
+                {% else %}
+                <table class="table">
+                    <tr>
+                        <th>项目</th>
+                        <th>类型</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                    {% for pro in projects_no %}
+                    <tr>
+                        <td>
+                            <a href="/project/show/pro_id/{{ pro.pro_id }}">
+                                {% if pro.name | slice(150,1) != '' %}
+                                {{ pro.name | slice(0,150)}}&nbsp;...
+                                {% else %}
+                                {{ pro.name | slice(0,150)}}
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td>{{ pro.type }}</td>
+                        <td>{{ pro.remark }}</td>
+                        <td>
+                            <a href="/project/update/pro_id/{{ pro.pro_id }}" class="text-primary">编辑</a>
+                            <a class="text-warning del-btn" href="javascript:;" url="/project/delete"
+                               back_url="/account/projectList" id={{ pro.pro_id }}>删除</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <div class="show-page">
+                    {% autoescape %}
+                    {{ paginator_no |raw }}
+                    {% endautoescape %}
+                </div>
+                {% endif %}
+            </div>
+            <div role="tabpanel" class="tab-pane" id="pro-status-without">
+                {% if projects_without is empty %}
+                <p class="text-center msg-tip">
+                    <small>您没有待审核的项目</small>
+                </p>
+                {% else %}
+                <table class="table">
+                    <tr>
+                        <th>项目</th>
+                        <th>类型</th>
+                        <th>操作</th>
+                    </tr>
+                    {% for pro in projects_without %}
+                    <tr>
+                        <td>
+                            <a href="/project/show/pro_id/{{ pro.pro_id }}">
+                                {% if pro.name | slice(150,1) != '' %}
+                                {{ pro.name | slice(0,150)}}&nbsp;...
+                                {% else %}
+                                {{ pro.name | slice(0,150)}}
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td>{{ pro.type }}</td>
+                        <td>
+                            <a href="/project/update/pro_id/{{ pro.pro_id }}" class="text-primary">编辑</a>
+                            <a class="text-warning del-btn" href="javascript:;" url="/project/delete"
+                               back_url="/account/projectList" id={{ pro.pro_id }}>删除</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <div class="show-page">
+                    {% autoescape %}
+                    {{ paginator_without |raw }}
+                    {% endautoescape %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
