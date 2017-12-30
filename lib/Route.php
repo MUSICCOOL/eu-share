@@ -20,10 +20,10 @@ class Route
         $c    = $a = '';
         if ($mode == self::MODE_PHPINFO) {
             $parts = self::getUriParts($uri);
-            $c     = PROJECT . "\\controller\\" . (empty($parts[0]) ? 'index' : $parts[0]) . "Controller";
+            $c     = PROJECT . "\\controller\\" . (empty($parts[0]) ? 'Index' : ucfirst($parts[0])) . "Controller";
             $a     = empty($parts[1]) ? 'index' : $parts[1];
         } else {
-            $c = PROJECT . "\\controller\\" . (empty($_GET['c']) ? 'index' : $_GET['c']) . "Controller";
+            $c = PROJECT . "\\controller\\" . (empty($_GET['c']) ? 'Index' : ucfirst($_GET['c'])) . "Controller";
             $a = empty($_GET['a']) ? 'index' : $_GET['a'];
         }
         return ['c' => $c, 'a' => $a];
