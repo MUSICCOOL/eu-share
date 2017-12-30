@@ -28,7 +28,7 @@ function testHeader()
     static $headers = array();
 
     if (!$h = func_get_args()) {
-        $h       = $headers;
+        $h = $headers;
         $headers = array();
 
         return $h;

@@ -1,9 +1,8 @@
 <?php
 /**
  * Slovene PHPMailer language file: refer to English translation for definitive list
- *
  * @package PHPMailer
- * @author  Klemen Tušar <techouse@gmail.com>
+ * @author Klemen Tušar <techouse@gmail.com>
  */
 
 $PHPMAILER_LANG['authenticate']         = 'SMTP napaka: Avtentikacija ni uspela.';

@@ -34,7 +34,7 @@ class SMTP
      *
      * @var string
      */
-    const VERSION = '6.0.1';
+    const VERSION = '6.0.2';
 
     /**
      * SMTP line break constant.
@@ -155,11 +155,12 @@ class SMTP
      * @var string[]
      */
     protected $smtp_transaction_id_patterns = [
-        'exim'            => '/[0-9]{3} OK id=(.*)/',
-        'sendmail'        => '/[0-9]{3} 2.0.0 (.*) Message/',
-        'postfix'         => '/[0-9]{3} 2.0.0 Ok: queued as (.*)/',
+        'exim' => '/[0-9]{3} OK id=(.*)/',
+        'sendmail' => '/[0-9]{3} 2.0.0 (.*) Message/',
+        'postfix' => '/[0-9]{3} 2.0.0 Ok: queued as (.*)/',
         'Microsoft_ESMTP' => '/[0-9]{3} 2.[0-9].0 (.*)@(?:.*) Queued mail for delivery/',
-        'Amazon_SES'      => '/[0-9]{3} Ok (.*)/',
+        'Amazon_SES' => '/[0-9]{3} Ok (.*)/',
+        'SendGrid' => '/[0-9]{3} Ok: queued as (.*)/',
     ];
 
     /**
@@ -183,9 +184,9 @@ class SMTP
      * @var array
      */
     protected $error = [
-        'error'        => '',
-        'detail'       => '',
-        'smtp_code'    => '',
+        'error' => '',
+        'detail' => '',
+        'smtp_code' => '',
         'smtp_code_ex' => '',
     ];
 
@@ -231,7 +232,7 @@ class SMTP
             return;
         }
         //Is this a PSR-3 logger?
-        if (is_a($this->Debugoutput, 'Psr\Log\LoggerInterface')) {
+        if ($this->Debugoutput instanceof \Psr\Log\LoggerInterface) {
             $this->Debugoutput->debug($str);
 
             return;
@@ -310,7 +311,7 @@ class SMTP
             (count($options) > 0 ? var_export($options, true) : 'array()'),
             self::DEBUG_CONNECTION
         );
-        $errno  = 0;
+        $errno = 0;
         $errstr = '';
         if ($streamok) {
             $socket_context = stream_context_create($options);
@@ -345,8 +346,8 @@ class SMTP
             $this->setError(
                 'Failed to connect to server',
                 '',
-                (string)$errno,
-                (string)$errstr
+                (string) $errno,
+                (string) $errstr
             );
             $this->edebug(
                 'SMTP ERROR: ' . $this->error['error']
@@ -404,7 +405,7 @@ class SMTP
         );
         restore_error_handler();
 
-        return (bool)$crypto_ok;
+        return (bool) $crypto_ok;
     }
 
     /**
@@ -569,9 +570,9 @@ class SMTP
         if (strlen($key) > $bytelen) {
             $key = pack('H*', md5($key));
         }
-        $key    = str_pad($key, $bytelen, chr(0x00));
-        $ipad   = str_pad('', $bytelen, chr(0x36));
-        $opad   = str_pad('', $bytelen, chr(0x5c));
+        $key = str_pad($key, $bytelen, chr(0x00));
+        $ipad = str_pad('', $bytelen, chr(0x36));
+        $opad = str_pad('', $bytelen, chr(0x5c));
         $k_ipad = $key ^ $ipad;
         $k_opad = $key ^ $opad;
 
@@ -614,7 +615,7 @@ class SMTP
     {
         $this->setError('');
         $this->server_caps = null;
-        $this->helo_rply   = null;
+        $this->helo_rply = null;
         if (is_resource($this->smtp_conn)) {
             // close the connection and cleanup
             fclose($this->smtp_conn);
@@ -659,7 +660,7 @@ class SMTP
          * process all lines before a blank line as headers.
          */
 
-        $field      = substr($lines[0], 0, strpos($lines[0], ':'));
+        $field = substr($lines[0], 0, strpos($lines[0], ':'));
         $in_headers = false;
         if (!empty($field) and strpos($field, ' ') === false) {
             $in_headers = true;
@@ -679,9 +680,9 @@ class SMTP
                 //Deliberately matches both false and 0
                 if (!$pos) {
                     //No nice break found, add a hard break
-                    $pos         = self::MAX_LINE_LENGTH - 1;
+                    $pos = self::MAX_LINE_LENGTH - 1;
                     $lines_out[] = substr($line, 0, $pos);
-                    $line        = substr($line, $pos);
+                    $line = substr($line, $pos);
                 } else {
                     //Break at the found point
                     $lines_out[] = substr($line, 0, $pos);
@@ -701,15 +702,15 @@ class SMTP
                 if (!empty($line_out) and $line_out[0] == '.') {
                     $line_out = '.' . $line_out;
                 }
-                $this->client_send($line_out . static::LE);
+                $this->client_send($line_out . static::LE, 'DATA');
             }
         }
 
         //Message data has been sent, complete the command
         //Increase timelimit for end of DATA command
-        $savetimelimit   = $this->Timelimit;
+        $savetimelimit = $this->Timelimit;
         $this->Timelimit = $this->Timelimit * 2;
-        $result          = $this->sendCommand('DATA END', '.', 250);
+        $result = $this->sendCommand('DATA END', '.', 250);
         $this->recordLastTransactionID();
         //Restore timelimit
         $this->Timelimit = $savetimelimit;
@@ -731,7 +732,7 @@ class SMTP
     public function hello($host = '')
     {
         //Try extended hello first (RFC 2821)
-        return (bool)($this->sendHello('EHLO', $host) or $this->sendHello('HELO', $host));
+        return (bool) ($this->sendHello('EHLO', $host) or $this->sendHello('HELO', $host));
     }
 
     /**
@@ -747,7 +748,7 @@ class SMTP
      */
     protected function sendHello($hello, $host)
     {
-        $noerror         = $this->sendCommand($hello, $hello . ' ' . $host, 250);
+        $noerror = $this->sendCommand($hello, $hello . ' ' . $host, 250);
         $this->helo_rply = $this->last_reply;
         if ($noerror) {
             $this->parseHelloFields($hello);
@@ -767,7 +768,7 @@ class SMTP
     protected function parseHelloFields($type)
     {
         $this->server_caps = [];
-        $lines             = explode("\n", $this->helo_rply);
+        $lines = explode("\n", $this->helo_rply);
 
         foreach ($lines as $n => $s) {
             //First 4 chars contain response code followed by - or space
@@ -778,7 +779,7 @@ class SMTP
             $fields = explode(' ', $s);
             if (!empty($fields)) {
                 if (!$n) {
-                    $name   = $type;
+                    $name = $type;
                     $fields = $fields[0];
                 } else {
                     $name = array_shift($fields);
@@ -835,7 +836,7 @@ class SMTP
     public function quit($close_on_error = true)
     {
         $noerror = $this->sendCommand('QUIT', 'QUIT', 221);
-        $err     = $this->error; //Save any error
+        $err = $this->error; //Save any error
         if ($noerror or $close_on_error) {
             $this->close();
             $this->error = $err; //Restore any error from the quit command
@@ -897,13 +898,13 @@ class SMTP
 
             return false;
         }
-        $this->client_send($commandstring . static::LE);
+        $this->client_send($commandstring . static::LE, $command);
 
         $this->last_reply = $this->get_lines();
         // Fetch SMTP code and possible error code explanation
         $matches = [];
         if (preg_match('/^([0-9]{3})[ -](?:([0-9]\\.[0-9]\\.[0-9]) )?/', $this->last_reply, $matches)) {
-            $code    = $matches[1];
+            $code = $matches[1];
             $code_ex = (count($matches) > 2 ? $matches[2] : null);
             // Cut off error code from each response line
             $detail = preg_replace(
@@ -914,14 +915,14 @@ class SMTP
             );
         } else {
             // Fall back to simple parsing if regex fails
-            $code    = substr($this->last_reply, 0, 3);
+            $code = substr($this->last_reply, 0, 3);
             $code_ex = null;
-            $detail  = substr($this->last_reply, 4);
+            $detail = substr($this->last_reply, 4);
         }
 
         $this->edebug('SERVER -> CLIENT: ' . $this->last_reply, self::DEBUG_SERVER);
 
-        if (!in_array($code, (array)$expect)) {
+        if (!in_array($code, (array) $expect)) {
             $this->setError(
                 "$command command failed",
                 $detail,
@@ -1003,13 +1004,21 @@ class SMTP
     /**
      * Send raw data to the server.
      *
-     * @param string $data The data to send
+     * @param string $data    The data to send
+     * @param string $command Optionally, the command this is part of, used only for controlling debug output
      *
      * @return int|bool The number of bytes sent to the server or false on error
      */
-    public function client_send($data)
+    public function client_send($data, $command = '')
     {
-        $this->edebug("CLIENT -> SERVER: $data", self::DEBUG_CLIENT);
+        //If SMTP transcripts are left enabled, or debug output is posted online
+        //it can leak credentials, so hide credentials in all but lowest level
+        if (self::DEBUG_LOWLEVEL > $this->do_debug and
+            in_array($command, ['User & Password', 'Username', 'Password'], true)) {
+            $this->edebug('CLIENT -> SERVER: <credentials hidden>', self::DEBUG_CLIENT);
+        } else {
+            $this->edebug('CLIENT -> SERVER: ' . $data, self::DEBUG_CLIENT);
+        }
         set_error_handler([$this, 'errorHandler']);
         $result = fwrite($this->smtp_conn, $data);
         restore_error_handler();
@@ -1102,7 +1111,7 @@ class SMTP
         if (!is_resource($this->smtp_conn)) {
             return '';
         }
-        $data    = '';
+        $data = '';
         $endtime = 0;
         stream_set_timeout($this->smtp_conn, $this->Timeout);
         if ($this->Timelimit > 0) {
@@ -1183,9 +1192,9 @@ class SMTP
     protected function setError($message, $detail = '', $smtp_code = '', $smtp_code_ex = '')
     {
         $this->error = [
-            'error'        => $message,
-            'detail'       => $detail,
-            'smtp_code'    => $smtp_code,
+            'error' => $message,
+            'detail' => $detail,
+            'smtp_code' => $smtp_code,
             'smtp_code_ex' => $smtp_code_ex,
         ];
     }
@@ -1264,7 +1273,7 @@ class SMTP
         $this->setError(
             $notice,
             $errmsg,
-            (string)$errno
+            (string) $errno
         );
         $this->edebug(
             "$notice Error #$errno: $errmsg [$errfile line $errline]",
@@ -1291,7 +1300,7 @@ class SMTP
             $this->last_smtp_transaction_id = false;
             foreach ($this->smtp_transaction_id_patterns as $smtp_transaction_id_pattern) {
                 if (preg_match($smtp_transaction_id_pattern, $reply, $matches)) {
-                    $this->last_smtp_transaction_id = $matches[1];
+                    $this->last_smtp_transaction_id = trim($matches[1]);
                     break;
                 }
             }

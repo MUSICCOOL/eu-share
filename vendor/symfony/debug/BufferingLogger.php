@@ -29,7 +29,7 @@ class BufferingLogger extends AbstractLogger
 
     public function cleanLogs()
     {
-        $logs       = $this->logs;
+        $logs = $this->logs;
         $this->logs = array();
 
         return $logs;

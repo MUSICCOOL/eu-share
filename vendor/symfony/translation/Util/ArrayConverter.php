@@ -50,7 +50,7 @@ class ArrayConverter
 
     private static function &getElementByPath(array &$tree, array $parts)
     {
-        $elem         = &$tree;
+        $elem = &$tree;
         $parentOfElem = null;
 
         foreach ($parts as $i => $part) {
@@ -66,7 +66,7 @@ class ArrayConverter
                 break;
             }
             $parentOfElem = &$elem;
-            $elem         = &$elem[$part];
+            $elem = &$elem[$part];
         }
 
         if (is_array($elem) && count($elem) > 0 && $parentOfElem) {
@@ -90,9 +90,9 @@ class ArrayConverter
 
         foreach ($node as $id => $value) {
             if (is_string($value)) {
-                $tree[$prefix . $id] = $value;
+                $tree[$prefix.$id] = $value;
             } else {
-                self::cancelExpand($tree, $prefix . $id, $value);
+                self::cancelExpand($tree, $prefix.$id, $value);
             }
         }
     }

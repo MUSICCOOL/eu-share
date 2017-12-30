@@ -26,6 +26,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class XliffLintCommand extends Command
 {
+    protected static $defaultName = 'lint:xliff';
+
     private $format;
     private $displayCorrectFiles;
     private $directoryIteratorProvider;
@@ -36,7 +38,7 @@ class XliffLintCommand extends Command
         parent::__construct($name);
 
         $this->directoryIteratorProvider = $directoryIteratorProvider;
-        $this->isReadableProvider        = $isReadableProvider;
+        $this->isReadableProvider = $isReadableProvider;
     }
 
     /**
@@ -45,7 +47,6 @@ class XliffLintCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('lint:xliff')
             ->setDescription('Lints a XLIFF file and outputs encountered errors')
             ->addArgument('filename', null, 'A file or a directory or STDIN')
             ->addOption('format', null, InputOption::VALUE_REQUIRED, 'The output format', 'txt')
@@ -67,14 +68,15 @@ Or of a whole directory:
   <info>php %command.full_name% dirname --format=json</info>
 
 EOF
-            );
+            )
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io                        = new SymfonyStyle($input, $output);
-        $filename                  = $input->getArgument('filename');
-        $this->format              = $input->getOption('format');
+        $io = new SymfonyStyle($input, $output);
+        $filename = $input->getArgument('filename');
+        $this->format = $input->getOption('format');
         $this->displayCorrectFiles = $output->isVerbose();
 
         if (!$filename) {
@@ -108,14 +110,14 @@ EOF
 
         $document = new \DOMDocument();
         $document->loadXML($content);
-        if ($document->schemaValidate(__DIR__ . '/../Resources/schemas/xliff-core-1.2-strict.xsd')) {
+        if ($document->schemaValidate(__DIR__.'/../Resources/schemas/xliff-core-1.2-strict.xsd')) {
             return array('file' => $file, 'valid' => true);
         }
 
         $errorMessages = array_map(function ($error) {
             return array(
-                'line'    => $error->line,
-                'column'  => $error->column,
+                'line' => $error->line,
+                'column' => $error->column,
                 'message' => trim($error->message),
             );
         }, libxml_get_errors());
@@ -140,19 +142,18 @@ EOF
 
     private function displayTxt(SymfonyStyle $io, array $filesInfo)
     {
-        $countFiles   = count($filesInfo);
+        $countFiles = count($filesInfo);
         $erroredFiles = 0;
 
         foreach ($filesInfo as $info) {
             if ($info['valid'] && $this->displayCorrectFiles) {
-                $io->comment('<info>OK</info>' . ($info['file'] ? sprintf(' in %s', $info['file']) : ''));
+                $io->comment('<info>OK</info>'.($info['file'] ? sprintf(' in %s', $info['file']) : ''));
             } elseif (!$info['valid']) {
                 ++$erroredFiles;
-                $io->text('<error> ERROR </error>' . ($info['file'] ? sprintf(' in %s', $info['file']) : ''));
+                $io->text('<error> ERROR </error>'.($info['file'] ? sprintf(' in %s', $info['file']) : ''));
                 $io->listing(array_map(function ($error) {
                     // general document errors have a '-1' line number
-                    return -1 === $error['line'] ? $error['message'] : sprintf('Line %d, Column %d: %s', $error['line'],
-                        $error['column'], $error['message']);
+                    return -1 === $error['line'] ? $error['message'] : sprintf('Line %d, Column %d: %s', $error['line'], $error['column'], $error['message']);
                 }, $info['messages']));
             }
         }
@@ -160,8 +161,7 @@ EOF
         if (0 === $erroredFiles) {
             $io->success(sprintf('All %d XLIFF files contain valid syntax.', $countFiles));
         } else {
-            $io->warning(sprintf('%d XLIFF files have valid syntax and %d contain errors.', $countFiles - $erroredFiles,
-                $erroredFiles));
+            $io->warning(sprintf('%d XLIFF files have valid syntax and %d contain errors.', $countFiles - $erroredFiles, $erroredFiles));
         }
 
         return min($erroredFiles, 1);
@@ -172,7 +172,7 @@ EOF
         $errors = 0;
 
         array_walk($filesInfo, function (&$v) use (&$errors) {
-            $v['file'] = (string)$v['file'];
+            $v['file'] = (string) $v['file'];
             if (!$v['valid']) {
                 ++$errors;
             }
@@ -218,8 +218,7 @@ EOF
     {
         $default = function ($directory) {
             return new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($directory,
-                    \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS),
+                new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::FOLLOW_SYMLINKS),
                 \RecursiveIteratorIterator::LEAVES_ONLY
             );
         };

@@ -39,14 +39,14 @@ class OAuth
      *
      * @var AbstractProvider
      */
-    protected $provider = null;
+    protected $provider;
 
     /**
      * The current OAuth access token.
      *
      * @var AccessToken
      */
-    protected $oauthToken = null;
+    protected $oauthToken;
 
     /**
      * The user's email address, usually used as the login ID
@@ -85,10 +85,10 @@ class OAuth
      */
     public function __construct($options)
     {
-        $this->provider          = $options['provider'];
-        $this->oauthUserEmail    = $options['userName'];
+        $this->provider = $options['provider'];
+        $this->oauthUserEmail = $options['userName'];
         $this->oauthClientSecret = $options['clientSecret'];
-        $this->oauthClientId     = $options['clientId'];
+        $this->oauthClientId = $options['clientId'];
         $this->oauthRefreshToken = $options['refreshToken'];
     }
 

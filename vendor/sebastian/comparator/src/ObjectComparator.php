@@ -31,23 +31,17 @@ class ObjectComparator extends ArrayComparator
     /**
      * Asserts that two values are equal.
      *
-     * @param mixed $expected First value to compare
-     * @param mixed $actual Second value to compare
-     * @param float $delta Allowed numerical distance between two values to consider them equal
+     * @param mixed $expected     First value to compare
+     * @param mixed $actual       Second value to compare
+     * @param float $delta        Allowed numerical distance between two values to consider them equal
      * @param bool  $canonicalize Arrays are sorted before comparison when set to true
-     * @param bool  $ignoreCase Case is ignored when set to true
-     * @param array $processed List of already processed elements (used to prevent infinite recursion)
+     * @param bool  $ignoreCase   Case is ignored when set to true
+     * @param array $processed    List of already processed elements (used to prevent infinite recursion)
      *
      * @throws ComparisonFailure
      */
-    public function assertEquals(
-        $expected,
-        $actual,
-        $delta = 0.0,
-        $canonicalize = false,
-        $ignoreCase = false,
-        array &$processed = []
-    ) {
+    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false, array &$processed = [])
+    {
         if (get_class($actual) !== get_class($expected)) {
             throw new ComparisonFailure(
                 $expected,

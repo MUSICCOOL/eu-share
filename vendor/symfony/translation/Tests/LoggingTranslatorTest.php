@@ -22,10 +22,11 @@ class LoggingTranslatorTest extends TestCase
     {
         $logger = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
         $logger->expects($this->exactly(2))
-               ->method('warning')
-               ->with('Translation not found.');
+            ->method('warning')
+            ->with('Translation not found.')
+        ;
 
-        $translator         = new Translator('ar');
+        $translator = new Translator('ar');
         $loggableTranslator = new LoggingTranslator($translator, $logger);
         $loggableTranslator->transChoice('some_message2', 10, array('%count%' => 10));
         $loggableTranslator->trans('bar');
@@ -35,8 +36,9 @@ class LoggingTranslatorTest extends TestCase
     {
         $logger = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
         $logger->expects($this->once())
-               ->method('debug')
-               ->with('Translation use fallback catalogue.');
+            ->method('debug')
+            ->with('Translation use fallback catalogue.')
+        ;
 
         $translator = new Translator('ar');
         $translator->setFallbackLocales(array('en'));

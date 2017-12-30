@@ -17,7 +17,7 @@ use Symfony\Component\Debug\Exception\OutOfMemoryException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
-require_once __DIR__ . '/HeaderMock.php';
+require_once __DIR__.'/HeaderMock.php';
 
 class ExceptionHandlerTest extends TestCase
 {
@@ -94,8 +94,7 @@ class ExceptionHandlerTest extends TestCase
         $handler->sendPhpResponse(new \RuntimeException('Foo', 0, new \RuntimeException('Bar')));
         $response = ob_get_clean();
 
-        $this->assertStringMatchesFormat('%A<span class="exception_message">Foo</span>%A<span class="exception_message">Bar</span>%A',
-            $response);
+        $this->assertStringMatchesFormat('%A<span class="exception_message">Foo</span>%A<span class="exception_message">Bar</span>%A', $response);
     }
 
     public function testHandle()

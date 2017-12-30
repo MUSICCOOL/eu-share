@@ -26,8 +26,7 @@ interface FatalErrorHandlerInterface
      * @param array               $error     An array as returned by error_get_last()
      * @param FatalErrorException $exception A FatalErrorException instance
      *
-     * @return FatalErrorException|null A FatalErrorException instance if the class is able to convert the error, null
-     *                                  otherwise
+     * @return FatalErrorException|null A FatalErrorException instance if the class is able to convert the error, null otherwise
      */
     public function handleError(array $error, FatalErrorException $exception);
 }
