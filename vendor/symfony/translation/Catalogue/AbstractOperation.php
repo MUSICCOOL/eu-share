@@ -26,19 +26,8 @@ use Symfony\Component\Translation\Exception\LogicException;
  */
 abstract class AbstractOperation implements OperationInterface
 {
-    /**
-     * @var MessageCatalogueInterface The source catalogue
-     */
     protected $source;
-
-    /**
-     * @var MessageCatalogueInterface The target catalogue
-     */
     protected $target;
-
-    /**
-     * @var MessageCatalogue The result catalogue
-     */
     protected $result;
 
     /**
@@ -71,9 +60,6 @@ abstract class AbstractOperation implements OperationInterface
     protected $messages;
 
     /**
-     * @param MessageCatalogueInterface $source The source catalogue
-     * @param MessageCatalogueInterface $target The target catalogue
-     *
      * @throws LogicException
      */
     public function __construct(MessageCatalogueInterface $source, MessageCatalogueInterface $target)
@@ -82,9 +68,9 @@ abstract class AbstractOperation implements OperationInterface
             throw new LogicException('Operated catalogues must belong to the same locale.');
         }
 
-        $this->source   = $source;
-        $this->target   = $target;
-        $this->result   = new MessageCatalogue($source->getLocale());
+        $this->source = $source;
+        $this->target = $target;
+        $this->result = new MessageCatalogue($source->getLocale());
         $this->messages = array();
     }
 
@@ -94,8 +80,7 @@ abstract class AbstractOperation implements OperationInterface
     public function getDomains()
     {
         if (null === $this->domains) {
-            $this->domains = array_values(array_unique(array_merge($this->source->getDomains(),
-                $this->target->getDomains())));
+            $this->domains = array_values(array_unique(array_merge($this->source->getDomains(), $this->target->getDomains())));
         }
 
         return $this->domains;

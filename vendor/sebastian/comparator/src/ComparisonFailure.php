@@ -70,14 +70,8 @@ class ComparisonFailure extends \RuntimeException
      * @param string $message          A string which is prefixed on all returned lines
      *                                 in the difference output.
      */
-    public function __construct(
-        $expected,
-        $actual,
-        $expectedAsString,
-        $actualAsString,
-        $identical = false,
-        $message = ''
-    ) {
+    public function __construct($expected, $actual, $expectedAsString, $actualAsString, $identical = false, $message = '')
+    {
         $this->expected         = $expected;
         $this->actual           = $actual;
         $this->expectedAsString = $expectedAsString;

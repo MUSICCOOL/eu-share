@@ -18,8 +18,8 @@ use Symfony\Component\Translation\Exception\InvalidArgumentException;
  */
 class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInterface
 {
-    const MESSAGE_DEFINED         = 0;
-    const MESSAGE_MISSING         = 1;
+    const MESSAGE_DEFINED = 0;
+    const MESSAGE_MISSING = 1;
     const MESSAGE_EQUALS_FALLBACK = 2;
 
     /**
@@ -27,9 +27,6 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
      */
     private $translator;
 
-    /**
-     * @var array
-     */
     private $messages = array();
 
     /**
@@ -38,8 +35,7 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
     public function __construct(TranslatorInterface $translator)
     {
         if (!$translator instanceof TranslatorBagInterface) {
-            throw new InvalidArgumentException(sprintf('The Translator "%s" must implement TranslatorInterface and TranslatorBagInterface.',
-                get_class($translator)));
+            throw new InvalidArgumentException(sprintf('The Translator "%s" must implement TranslatorInterface and TranslatorBagInterface.', get_class($translator)));
         }
 
         $this->translator = $translator;
@@ -135,9 +131,9 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
             $domain = 'messages';
         }
 
-        $id        = (string)$id;
+        $id = (string) $id;
         $catalogue = $this->translator->getCatalogue($locale);
-        $locale    = $catalogue->getLocale();
+        $locale = $catalogue->getLocale();
         if ($catalogue->defines($id, $domain)) {
             $state = self::MESSAGE_DEFINED;
         } elseif ($catalogue->has($id, $domain)) {
@@ -157,13 +153,13 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
         }
 
         $this->messages[] = array(
-            'locale'            => $locale,
-            'domain'            => $domain,
-            'id'                => $id,
-            'translation'       => $translation,
-            'parameters'        => $parameters,
+            'locale' => $locale,
+            'domain' => $domain,
+            'id' => $id,
+            'translation' => $translation,
+            'parameters' => $parameters,
             'transChoiceNumber' => $number,
-            'state'             => $state,
+            'state' => $state,
         );
     }
 }

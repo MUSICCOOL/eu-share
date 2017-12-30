@@ -24,7 +24,7 @@ class TranslatorCacheTest extends TestCase
 
     protected function setUp()
     {
-        $this->tmpDir = sys_get_temp_dir() . '/sf2_translation';
+        $this->tmpDir = sys_get_temp_dir().'/sf2_translation';
         $this->deleteTmpDir();
     }
 
@@ -39,8 +39,7 @@ class TranslatorCacheTest extends TestCase
             return;
         }
 
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->tmpDir),
-            \RecursiveIteratorIterator::CHILD_FIRST);
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->tmpDir), \RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($iterator as $path) {
             if (preg_match('#[/\\\\]\.\.?$#', $path->__toString())) {
                 continue;
@@ -61,7 +60,7 @@ class TranslatorCacheTest extends TestCase
     {
         $locale = 'any_locale';
         $format = 'some_format';
-        $msgid  = 'test';
+        $msgid = 'test';
 
         // Prime the cache
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
@@ -73,8 +72,7 @@ class TranslatorCacheTest extends TestCase
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
         $translator->addLoader($format, $this->createFailingLoader());
         $translator->addResource($format, array($msgid => 'OK'), $locale);
-        $this->assertEquals('OK', $translator->trans($msgid),
-            '-> caching does not work in ' . ($debug ? 'debug' : 'production'));
+        $this->assertEquals('OK', $translator->trans($msgid), '-> caching does not work in '.($debug ? 'debug' : 'production'));
     }
 
     public function testCatalogueIsReloadedWhenResourcesAreNoLongerFresh()
@@ -92,7 +90,7 @@ class TranslatorCacheTest extends TestCase
 
         $locale = 'any_locale';
         $format = 'some_format';
-        $msgid  = 'test';
+        $msgid = 'test';
 
         $catalogue = new MessageCatalogue($locale, array());
         $catalogue->addResource(new StaleResource()); // better use a helper class than a mock, because it gets serialized in the cache and re-loaded
@@ -102,7 +100,8 @@ class TranslatorCacheTest extends TestCase
         $loader
             ->expects($this->exactly(2))
             ->method('load')
-            ->will($this->returnValue($catalogue));
+            ->will($this->returnValue($catalogue))
+        ;
 
         // 1st pass
         $translator = new Translator($locale, null, $this->tmpDir, true);
@@ -129,7 +128,7 @@ class TranslatorCacheTest extends TestCase
 
         $locale = 'any_locale';
         $format = 'some_format';
-        $msgid  = 'test';
+        $msgid = 'test';
 
         // Create a Translator and prime its cache
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
@@ -147,8 +146,7 @@ class TranslatorCacheTest extends TestCase
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
         $translator->addLoader($format, $this->createFailingLoader());
         $translator->addResource($format, array($msgid => 'OK'), $locale);
-        $this->assertEquals('OK', $translator->trans($msgid),
-            '-> the cache was overwritten by another translator instance in ' . ($debug ? 'debug' : 'production'));
+        $this->assertEquals('OK', $translator->trans($msgid), '-> the cache was overwritten by another translator instance in '.($debug ? 'debug' : 'production'));
     }
 
     public function testGeneratedCacheFilesAreOnlyBelongRequestedLocales()
@@ -157,7 +155,7 @@ class TranslatorCacheTest extends TestCase
         $translator->setFallbackLocales(array('b'));
         $translator->trans('bar');
 
-        $cachedFiles = glob($this->tmpDir . '/*.php');
+        $cachedFiles = glob($this->tmpDir.'/*.php');
 
         $this->assertCount(1, $cachedFiles);
     }
@@ -243,7 +241,7 @@ class TranslatorCacheTest extends TestCase
     public function testRefreshCacheWhenResourcesAreNoLongerFresh()
     {
         $resource = $this->getMockBuilder('Symfony\Component\Config\Resource\SelfCheckingResourceInterface')->getMock();
-        $loader   = $this->getMockBuilder('Symfony\Component\Translation\Loader\LoaderInterface')->getMock();
+        $loader = $this->getMockBuilder('Symfony\Component\Translation\Loader\LoaderInterface')->getMock();
         $resource->method('isFresh')->will($this->returnValue(false));
         $loader
             ->expects($this->exactly(2))

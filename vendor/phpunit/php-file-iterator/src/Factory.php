@@ -18,10 +18,10 @@
 class File_Iterator_Factory
 {
     /**
-     * @param  array|string $paths
-     * @param  array|string $suffixes
-     * @param  array|string $prefixes
-     * @param  array        $exclude
+     * @param  array|string   $paths
+     * @param  array|string   $suffixes
+     * @param  array|string   $prefixes
+     * @param  array          $exclude
      * @return AppendIterator
      */
     public function getFileIterator($paths, $suffixes = '', $prefixes = '', array $exclude = array())
@@ -54,15 +54,15 @@ class File_Iterator_Factory
         foreach ($paths as $path) {
             if (is_dir($path)) {
                 $iterator->append(
-                    new File_Iterator(
-                        new RecursiveIteratorIterator(
-                            new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::FOLLOW_SYMLINKS)
-                        ),
-                        $suffixes,
-                        $prefixes,
-                        $exclude,
-                        $path
-                    )
+                  new File_Iterator(
+                    new RecursiveIteratorIterator(
+                      new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::FOLLOW_SYMLINKS)
+                    ),
+                    $suffixes,
+                    $prefixes,
+                    $exclude,
+                    $path
+                  )
                 );
             }
         }
@@ -80,9 +80,9 @@ class File_Iterator_Factory
 
         foreach ($paths as $path) {
             if ($locals = glob($path, GLOB_ONLYDIR)) {
-                $_paths = array_merge($_paths, $locals);
+                $_paths = array_merge($_paths, array_map('realpath', $locals));
             } else {
-                $_paths[] = $path;
+                $_paths[] = realpath($path);
             }
         }
 

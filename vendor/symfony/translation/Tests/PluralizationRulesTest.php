@@ -18,8 +18,8 @@ use Symfony\Component\Translation\PluralizationRules;
  * Test should cover all languages mentioned on http://translate.sourceforge.net/wiki/l10n/pluralforms
  * and Plural forms mentioned on http://www.gnu.org/software/gettext/manual/gettext.html#Plural-forms.
  *
- * See also https://developer.mozilla.org/en/Localization_and_Plurals which mentions 15 rules having a maximum of 6
- * forms. The mozilla code is also interesting to check for.
+ * See also https://developer.mozilla.org/en/Localization_and_Plurals which mentions 15 rules having a maximum of 6 forms.
+ * The mozilla code is also interesting to check for.
  *
  * As mentioned by chx http://drupal.org/node/1273968 we can cover all by testing number from 0 to 199
  *
@@ -91,8 +91,8 @@ class PluralizationRulesTest extends TestCase
     /**
      * We validate only on the plural coverage. Thus the real rules is not tested.
      *
-     * @param string $nplural plural expected
-     * @param array  $matrix  containing langcodes and their plural index values
+     * @param string $nplural       Plural expected
+     * @param array  $matrix        Containing langcodes and their plural index values
      * @param bool   $expectSuccess
      */
     protected function validateMatrix($nplural, $matrix, $expectSuccess = true)
@@ -102,8 +102,7 @@ class PluralizationRulesTest extends TestCase
             if ($expectSuccess) {
                 $this->assertEquals($nplural, count($indexes), "Langcode '$langCode' has '$nplural' plural forms.");
             } else {
-                $this->assertNotEquals((int)$nplural, count($indexes),
-                    "Langcode '$langCode' has '$nplural' plural forms.");
+                $this->assertNotEquals((int) $nplural, count($indexes), "Langcode '$langCode' has '$nplural' plural forms.");
             }
         }
     }
@@ -113,7 +112,7 @@ class PluralizationRulesTest extends TestCase
         $matrix = array();
         foreach ($langCodes as $langCode) {
             for ($count = 0; $count < 200; ++$count) {
-                $plural                    = PluralizationRules::get($count, $langCode);
+                $plural = PluralizationRules::get($count, $langCode);
                 $matrix[$langCode][$count] = $plural;
             }
         }

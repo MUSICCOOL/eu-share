@@ -43,8 +43,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     25 => -2,
                     29 => -1,
                     31 => -1,
-                    32 => -2,
-                ],
+                    32 => -2
+                ]
             ],
             [
                 TEST_FILES_PATH . 'BankAccount.php' => [
@@ -52,7 +52,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     13 => 1,
                     16 => 1,
                     29 => 1,
-                ],
+                ]
             ],
             [
                 TEST_FILES_PATH . 'BankAccount.php' => [
@@ -60,7 +60,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     13 => 1,
                     16 => 1,
                     22 => 1,
-                ],
+                ]
             ],
             [
                 TEST_FILES_PATH . 'BankAccount.php' => [
@@ -73,8 +73,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     24 => 1,
                     29 => 1,
                     31 => 1,
-                ],
-            ],
+                ]
+            ]
         ];
     }
 
@@ -86,13 +86,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $stub = $this->createMock(Xdebug::class);
 
         $stub->expects($this->any())
-             ->method('stop')
-             ->will($this->onConsecutiveCalls(
-                 $data[0],
-                 $data[1],
-                 $data[2],
-                 $data[3]
-             ));
+            ->method('stop')
+            ->will($this->onConsecutiveCalls(
+                $data[0],
+                $data[1],
+                $data[2],
+                $data[3]
+            ));
 
         $filter = new Filter;
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'BankAccount.php');
@@ -138,7 +138,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     range(6, 9),
                     range(20, 25),
                     range(27, 32)
-                ),
+                )
             ]
         );
 
@@ -152,11 +152,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $stub = $this->createMock(Xdebug::class);
 
         $stub->expects($this->any())
-             ->method('stop')
-             ->will($this->onConsecutiveCalls(
-                 $data[0],
-                 $data[1]
-             ));
+            ->method('stop')
+            ->will($this->onConsecutiveCalls(
+                $data[0],
+                $data[1]
+            ));
 
         $filter = new Filter;
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'BankAccount.php');
@@ -192,11 +192,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $stub = $this->createMock(Xdebug::class);
 
         $stub->expects($this->any())
-             ->method('stop')
-             ->will($this->onConsecutiveCalls(
-                 $data[2],
-                 $data[3]
-             ));
+            ->method('stop')
+            ->will($this->onConsecutiveCalls(
+                $data[2],
+                $data[3]
+            ));
 
         $filter = new Filter;
         $filter->addFileToWhitelist(TEST_FILES_PATH . 'BankAccount.php');
@@ -223,7 +223,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     range(6, 9),
                     range(20, 25),
                     range(27, 32)
-                ),
+                )
             ]
         );
 
@@ -234,9 +234,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         return [
             TEST_FILES_PATH . 'BankAccount.php' => [
-                8  => [
+                8 => [
                     0 => 'BankAccountTest::testBalanceIsInitiallyZero',
-                    1 => 'BankAccountTest::testDepositWithdrawMoney',
+                    1 => 'BankAccountTest::testDepositWithdrawMoney'
                 ],
                 9  => null,
                 13 => [],
@@ -246,7 +246,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 18 => [],
                 22 => [
                     0 => 'BankAccountTest::testBalanceCannotBecomeNegative2',
-                    1 => 'BankAccountTest::testDepositWithdrawMoney',
+                    1 => 'BankAccountTest::testDepositWithdrawMoney'
                 ],
                 24 => [
                     0 => 'BankAccountTest::testDepositWithdrawMoney',
@@ -254,13 +254,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 25 => null,
                 29 => [
                     0 => 'BankAccountTest::testBalanceCannotBecomeNegative',
-                    1 => 'BankAccountTest::testDepositWithdrawMoney',
+                    1 => 'BankAccountTest::testDepositWithdrawMoney'
                 ],
                 31 => [
-                    0 => 'BankAccountTest::testDepositWithdrawMoney',
+                    0 => 'BankAccountTest::testDepositWithdrawMoney'
                 ],
-                32 => null,
-            ],
+                32 => null
+            ]
         ];
     }
 
@@ -285,17 +285,17 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $stub = $this->createMock(Xdebug::class);
 
         $stub->expects($this->any())
-             ->method('stop')
-             ->will($this->returnValue(
-                 [
-                     TEST_FILES_PATH . 'source_with_ignore.php' => [
-                         2 => 1,
-                         4 => -1,
-                         6 => -1,
-                         7 => 1,
-                     ],
-                 ]
-             ));
+            ->method('stop')
+            ->will($this->returnValue(
+                [
+                    TEST_FILES_PATH . 'source_with_ignore.php' => [
+                        2 => 1,
+                        4 => -1,
+                        6 => -1,
+                        7 => 1
+                    ]
+                ]
+            ));
 
         return $stub;
     }
@@ -321,22 +321,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $stub = $this->createMock(Xdebug::class);
 
         $stub->expects($this->any())
-             ->method('stop')
-             ->will($this->returnValue(
-                 [
-                     TEST_FILES_PATH . 'source_with_class_and_anonymous_function.php' => [
-                         7  => 1,
-                         9  => 1,
-                         10 => -1,
-                         11 => 1,
-                         12 => 1,
-                         13 => 1,
-                         14 => 1,
-                         17 => 1,
-                         18 => 1,
-                     ],
-                 ]
-             ));
+            ->method('stop')
+            ->will($this->returnValue(
+                [
+                    TEST_FILES_PATH . 'source_with_class_and_anonymous_function.php' => [
+                        7  => 1,
+                        9  => 1,
+                        10 => -1,
+                        11 => 1,
+                        12 => 1,
+                        13 => 1,
+                        14 => 1,
+                        17 => 1,
+                        18 => 1
+                    ]
+                ]
+            ));
 
         return $stub;
     }

@@ -11,11 +11,10 @@
 
 namespace Symfony\Component\Debug\Exception;
 
-@trigger_error('The ' . __NAMESPACE__ . '\DummyException class is deprecated since version 2.5 and will be removed in 3.0.',
-    E_USER_DEPRECATED);
+@trigger_error('The '.__NAMESPACE__.'\DummyException class is deprecated since version 2.5 and will be removed in 3.0.', E_USER_DEPRECATED);
 
 /**
- * @author     Fabien Potencier <fabien@symfony.com>
+ * @author Fabien Potencier <fabien@symfony.com>
  *
  * @deprecated since version 2.5, to be removed in 3.0.
  */

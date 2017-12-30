@@ -72,12 +72,11 @@ abstract class FileDumper implements DumperInterface
         // save a file for each domain
         foreach ($messages->getDomains() as $domain) {
             // backup
-            $fullpath = $options['path'] . '/' . $this->getRelativePath($domain, $messages->getLocale());
+            $fullpath = $options['path'].'/'.$this->getRelativePath($domain, $messages->getLocale());
             if (file_exists($fullpath)) {
                 if ($this->backup) {
-                    @trigger_error('Creating a backup while dumping a message catalogue is deprecated since version 3.1 and will be removed in 4.0. Use TranslationWriter::disableBackup() to disable the backup.',
-                        E_USER_DEPRECATED);
-                    copy($fullpath, $fullpath . '~');
+                    @trigger_error('Creating a backup while dumping a message catalogue is deprecated since version 3.1 and will be removed in 4.0. Use TranslationWriter::disableBackup() to disable the backup.', E_USER_DEPRECATED);
+                    copy($fullpath, $fullpath.'~');
                 }
             } else {
                 $directory = dirname($fullpath);
@@ -119,8 +118,8 @@ abstract class FileDumper implements DumperInterface
     private function getRelativePath($domain, $locale)
     {
         return strtr($this->relativePathTemplate, array(
-            '%domain%'    => $domain,
-            '%locale%'    => $locale,
+            '%domain%' => $domain,
+            '%locale%' => $locale,
             '%extension%' => $this->getExtension(),
         ));
     }

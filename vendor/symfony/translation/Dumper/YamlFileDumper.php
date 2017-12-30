@@ -23,6 +23,13 @@ use Symfony\Component\Translation\Exception\LogicException;
  */
 class YamlFileDumper extends FileDumper
 {
+    private $extension;
+
+    public function __construct(/**string */$extension = 'yml')
+    {
+        $this->extension = $extension;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -38,7 +45,7 @@ class YamlFileDumper extends FileDumper
             $data = ArrayConverter::expandToTree($data);
         }
 
-        if (isset($options['inline']) && ($inline = (int)$options['inline']) > 0) {
+        if (isset($options['inline']) && ($inline = (int) $options['inline']) > 0) {
             return Yaml::dump($data, $inline);
         }
 
@@ -50,6 +57,6 @@ class YamlFileDumper extends FileDumper
      */
     protected function getExtension()
     {
-        return 'yml';
+        return $this->extension;
     }
 }

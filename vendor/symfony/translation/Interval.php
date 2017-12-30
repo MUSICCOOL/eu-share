@@ -49,7 +49,7 @@ class Interval
     {
         $interval = trim($interval);
 
-        if (!preg_match('/^' . self::getIntervalRegexp() . '$/x', $interval, $matches)) {
+        if (!preg_match('/^'.self::getIntervalRegexp().'$/x', $interval, $matches)) {
             throw new InvalidArgumentException(sprintf('"%s" is not a valid interval.', $interval));
         }
 
@@ -60,12 +60,13 @@ class Interval
                 }
             }
         } else {
-            $leftNumber  = self::convertNumber($matches['left']);
+            $leftNumber = self::convertNumber($matches['left']);
             $rightNumber = self::convertNumber($matches['right']);
 
             return
                 ('[' === $matches['left_delimiter'] ? $number >= $leftNumber : $number > $leftNumber)
-                && (']' === $matches['right_delimiter'] ? $number <= $rightNumber : $number < $rightNumber);
+                && (']' === $matches['right_delimiter'] ? $number <= $rightNumber : $number < $rightNumber)
+            ;
         }
 
         return false;
@@ -103,6 +104,6 @@ EOF;
             return -log(0);
         }
 
-        return (float)$number;
+        return (float) $number;
     }
 }

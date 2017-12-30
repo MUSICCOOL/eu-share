@@ -65,13 +65,13 @@ class PoFileLoader extends FileLoader
         $stream = fopen($resource, 'r');
 
         $defaults = array(
-            'ids'        => array(),
+            'ids' => array(),
             'translated' => null,
         );
 
         $messages = array();
-        $item     = $defaults;
-        $flags    = array();
+        $item = $defaults;
+        $flags = array();
 
         while ($line = fgets($stream)) {
             $line = trim($line);
@@ -81,7 +81,7 @@ class PoFileLoader extends FileLoader
                 if (!in_array('fuzzy', $flags)) {
                     $this->addMessage($messages, $item);
                 }
-                $item  = $defaults;
+                $item = $defaults;
                 $flags = array();
             } elseif ('#,' === substr($line, 0, 2)) {
                 $flags = array_map('trim', explode(',', substr($line, 2)));
@@ -89,7 +89,7 @@ class PoFileLoader extends FileLoader
                 // We start a new msg so save previous
                 // TODO: this fails when comments or contexts are added
                 $this->addMessage($messages, $item);
-                $item                    = $defaults;
+                $item = $defaults;
                 $item['ids']['singular'] = substr($line, 7, -1);
             } elseif ('msgstr "' === substr($line, 0, 8)) {
                 $item['translated'] = substr($line, 8, -1);
@@ -105,8 +105,8 @@ class PoFileLoader extends FileLoader
             } elseif ('msgid_plural "' === substr($line, 0, 14)) {
                 $item['ids']['plural'] = substr($line, 14, -1);
             } elseif ('msgstr[' === substr($line, 0, 7)) {
-                $size                                         = strpos($line, ']');
-                $item['translated'][(int)substr($line, 7, 1)] = substr($line, $size + 3, -1);
+                $size = strpos($line, ']');
+                $item['translated'][(int) substr($line, 7, 1)] = substr($line, $size + 3, -1);
             }
         }
         // save last item
@@ -123,9 +123,6 @@ class PoFileLoader extends FileLoader
      *
      * A .po file could contain by error missing plural indexes. We need to
      * fix these before saving them.
-     *
-     * @param array $messages
-     * @param array $item
      */
     private function addMessage(array &$messages, array $item)
     {
