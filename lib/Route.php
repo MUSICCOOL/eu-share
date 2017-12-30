@@ -21,10 +21,10 @@ class Route
         if ($mode == self::MODE_PHPINFO) {
             $parts = self::getUriParts($uri);
             $c     = PROJECT . "\\controller\\" . (empty($parts[0]) ? 'Index' : ucfirst($parts[0])) . "Controller";
-            $a     = empty($parts[1]) ? 'index' : $parts[1];
+            $a     = empty($parts[1]) ? 'Index' : ucfirst($parts[1]);
         } else {
             $c = PROJECT . "\\controller\\" . (empty($_GET['c']) ? 'Index' : ucfirst($_GET['c'])) . "Controller";
-            $a = empty($_GET['a']) ? 'index' : $_GET['a'];
+            $a = empty($_GET['a']) ? 'Index' : ucfirst($_GET['a']);
         }
         return ['c' => $c, 'a' => $a];
     }
@@ -40,8 +40,8 @@ class Route
                 $query[strtolower($parts[$i])] = trim($parts[$i + 1]);
                 $i                             += 2;
             }
-            $query['c'] = empty($parts[0]) ? 'index' : $parts[0];
-            $query['a'] = empty($parts[1]) ? 'index' : $parts[1];
+            $query['c'] = empty($parts[0]) ? 'Index' : ucfirst($parts[0]);
+            $query['a'] = empty($parts[1]) ? 'Index' : ucfirst($parts[1]);
         }
 
         return $query;
