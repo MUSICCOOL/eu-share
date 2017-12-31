@@ -2,7 +2,6 @@
 
 namespace app\controller;
 
-use app\model\BlogModel;
 use app\model\ConnectModel;
 use app\model\ConstantModel;
 use app\model\ConsumerModel;
@@ -14,9 +13,7 @@ use app\model\RechargeModel;
 use app\model\RewardModel;
 use app\model\TypeModel;
 use app\model\UserModel;
-use app\model\WithdrawModel;
 use lib\Page;
-use system\Paginator;
 
 class AccountController extends BaseController
 {

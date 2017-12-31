@@ -20,3 +20,7 @@ if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['
     $url_type = 'http';
 }
 define("BASE_URL", $url_type . '://' . $_SERVER['SERVER_NAME'] . '/');
+
+// 定义后台入口文件名称
+$file = substr($_SERVER['PHP_SELF'], strrpos($_SERVER['PHP_SELF'], DIR_SIGN) + 1);
+define("ENTRANCE_NAME", $file);

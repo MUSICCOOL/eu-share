@@ -2,9 +2,7 @@
 
 namespace app\controller;
 
-use admin\model\ProjectModel;
 use app\model\BCommentModel;
-use app\model\CommentModel;
 use app\model\ConstantModel;
 use app\model\UserModel;
 use lib\Page;
