@@ -71,13 +71,9 @@ class Controller
                 $query .= '/' . $k . '/' . $v;
             }
         }
-        if (PROJECT == 'app') {
-            header("Location:" . "/" . $c . "/" . $a . $query);
-        } else {
-            if (PROJECT == 'admin') {
-                header("Location:" . "/admin.php" . "/" . $c . "/" . $a . $query);
-            }
-        }
+
+        header("Location:" . "/" . $c . "/" . $a . $query);
+
         exit();
     }
 

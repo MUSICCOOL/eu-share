@@ -1,6 +1,6 @@
 <?php
 return [
-    'site_url'         => 'http://www.xian.com/',
+    'site_url'         => 'http://dev.eu-share.com/',
     'db'               => [
         'driver'    => 'mysql',
         'host'      => '127.0.0.1',
@@ -33,10 +33,10 @@ return [
         'debug'    => 0, //是否启用smtp的debug进行调试 默认关闭debug调试模式 debug = 0
         'host'     => 'smtp.yeah.net',
         'port'     => 587,
-        'username' => 'eushare@yeah.net',
-        'password' => 'eusharea98b6532',
-        'address'  => 'eushare@yeah.net',
-        'name'     => '你分享-自主开发平台',
+        'username' => '',
+        'password' => '',
+        'address'  => '',
+        'name'     => '',
     ],
 ];
 

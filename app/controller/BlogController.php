@@ -5,7 +5,6 @@ namespace app\controller;
 use app\model\BlogModel;
 use app\model\BlogReadModel;
 use app\model\ConstantModel;
-use app\model\UserModel;
 use lib\Page;
 
 class BlogController extends BaseController

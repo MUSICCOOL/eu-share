@@ -20,10 +20,6 @@ class View
         if (!empty($_SESSION['username'])) {
             $twig->addGlobal('USERNAME', $_SESSION['username']);
         }
-        if (!empty($_SESSION['admin'])) {
-            $twig->addGlobal('ADMINNAME', $_SESSION['admin']);
-        }
-
         $twig->addGlobal('BASE_URL', BASE_URL);
 
         $this->view = $twig;

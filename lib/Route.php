@@ -51,10 +51,6 @@ class Route
     {
 
         $parts = explode('/', trim($uri, '/'));
-
-        if (substr($parts[0], 0, 5) == 'admin') {
-            array_shift($parts);
-        }
         return $parts;
     }
 

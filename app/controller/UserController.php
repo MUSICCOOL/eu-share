@@ -6,7 +6,6 @@ use app\model\ConstantModel;
 use app\model\ProjectModel;
 use lib\Log;
 use lib\Page;
-use system\Paginator;
 use app\model\UserModel;
 
 class UserController extends BaseController

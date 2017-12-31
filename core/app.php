@@ -2,7 +2,6 @@
 
 namespace system;
 
-use Illuminate\Support\Facades\Request;
 use lib\Route;
 
 class App
