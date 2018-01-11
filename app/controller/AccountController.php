@@ -126,7 +126,7 @@ class AccountController extends BaseController
         $path = ConstantModel::AVATAR_UPLOAD_PATH;
 
         $url = $this->imgUpload($file, $allowTypes, $path);
-        
+
         $url = $this->getShowUrls([$url]);
 
         $this->user->avatar = $url;
