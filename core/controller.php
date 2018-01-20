@@ -242,6 +242,7 @@ class Controller
 
         $path = ConstantModel::IMAGE_UPLOAD_PATH;
         echo $this->getShowUrls([$this->imgUpload($file, $allowTypes, $path)]);
+        exit();
     }
 
     public function upBase64Image($data, $allowTypes = array(), $path)
