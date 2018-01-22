@@ -2,16 +2,16 @@
 
 namespace app\controller;
 
-use app\model\BcommentModel;
+use app\model\BCommentModel;
 use app\model\ConstantModel;
 use app\model\UserModel;
 use lib\Page;
 
-class BcommentController extends BaseController
+class BCommentController extends BaseController
 {
     public function sendComment()
     {
-        $comment          = new BcommentModel();
+        $comment          = new BCommentModel();
         $comment->b_id    = $this->params['b_id'];
         $comment->user_id = $this->user->user_id;
 
@@ -32,8 +32,8 @@ class BcommentController extends BaseController
     {
         $page     = empty($this->params['page']) ? 1 : $this->params['page'];
         $count    = empty($this->params['count']) ? ConstantModel::DEFAULR_PER_PAGE_COUNT : $this->params['count'];
-        $comments = BcommentModel::where('b_id', $this->params['b_id'])->where('status',
-            BcommentModel::COM_STATUS_SUCCESS)->orderBy('created_at', 'desc');
+        $comments = BCommentModel::where('b_id', $this->params['b_id'])->where('status',
+            BCommentModel::COM_STATUS_SUCCESS)->orderBy('created_at', 'desc');
         $total    = $comments->count();
 
         $page = new Page($total, $page, $count);

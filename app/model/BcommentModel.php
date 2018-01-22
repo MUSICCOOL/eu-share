@@ -22,3 +22,4 @@ class BcommentModel extends Model
         self::COM_STATUS_BANED   => '审核未通过',
     ];
 }
+
