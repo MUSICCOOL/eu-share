@@ -5,7 +5,7 @@ namespace app\model;
 use system\Model;
 
 //继承父类并创建数据库链接
-class BCommentModel extends Model
+class BcommentModel extends Model
 {
     //所操作的数据表 可选
     protected $table = "blog_comment";
