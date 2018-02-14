@@ -454,9 +454,9 @@ class Controller
 
         foreach ($urls as $url) {
             if (strpos($url, $this->config['upload_dir']['base']) !== false) {
-                $res_urls[] = BASE_URL . $url;
+                $res_urls[] = $url;
             } else {
-                $res_urls[] = BASE_URL . $this->config['upload_dir']['base'] . $url;
+                $res_urls[] = $this->config['upload_dir']['base'] . $url;
             }
         }
         if (count($res_urls) < 2 && !$only_need_array) {
