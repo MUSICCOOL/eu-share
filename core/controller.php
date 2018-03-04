@@ -450,6 +450,9 @@ class Controller
         if (!is_array($urls)) {
             $urls = json_decode($urls, true);
         }
+        if (empty($urls)) {
+            return array();
+        }
         $res_urls = [];
 
         foreach ($urls as $url) {
