@@ -64,16 +64,21 @@ class ProjectController extends BaseController
 
     public function doAdd()
     {
-        $img_urls = explode(',', trim($this->params['imgs_urls'], ','));
+        $img_urls = trim($this->params['imgs_urls'], ',');
 
         $project              = new ProjectModel();
+
+        if (!empty($img_urls)) {
+            $img_urls = explode(',', $img_urls);
+            $project->imgs        = empty($img_urls) ? '' : json_encode($img_urls);
+        }
+
         $project->name        = $this->params['name'];
         $project->user_id     = $this->user->user_id;
         $project->intro       = $this->params['intro'];
         $project->type        = $this->params['type'];
         $project->need_points = $this->params['need_points'];
         $project->desc        = str_replace('\"', '"', $this->params['desc']);
-        $project->imgs        = json_encode($img_urls);
         $project->file        = $this->params['file_url'];
 
         if (!$project->save()) {
@@ -120,20 +125,23 @@ class ProjectController extends BaseController
 
     public function doUpdate()
     {
+        $img_urls = trim($this->params['imgs_urls'], ',');
         $project = ProjectModel::find($this->params['pro_id']);
 
-        $img_urls = explode(',', trim($this->params['imgs_urls'], ','));
-        $num      = count($img_urls);
-        if ($num > ProjectModel::PRO_IMG_LIMIT) {
-            $img_urls = array_slice($img_urls, $num - ProjectModel::PRO_IMG_LIMIT, ProjectModel::PRO_IMG_LIMIT);
+        if (!empty($img_urls)) {
+            $img_urls = explode(',', $img_urls);
+            $num      = count($img_urls);
+            if ($num > ProjectModel::PRO_IMG_LIMIT) {
+                $img_urls = array_slice($img_urls, $num - ProjectModel::PRO_IMG_LIMIT, ProjectModel::PRO_IMG_LIMIT);
+            }
+            $project->imgs        = empty($img_urls) ? '' : json_encode($img_urls);
         }
-
+        
         $project->name        = $this->params['name'];
         $project->intro       = $this->params['intro'];
         $project->type        = $this->params['type'];
         $project->need_points = $this->params['need_points'];
         $project->desc        = str_replace('\"', '"', $this->params['desc']);
-        $project->imgs        = json_encode($img_urls);
         $project->file        = $this->params['file_url'];
         $project->status      = ProjectModel::PRO_STATUS_NONE;
         if (!$project->save()) {
