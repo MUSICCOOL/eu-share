@@ -456,6 +456,10 @@ class Controller
         $res_urls = [];
 
         foreach ($urls as $url) {
+            if (strpos($url, 'http') == 0 || strpos($url, 'ftp://') == 0) {
+                $res_urls[] = $url;
+                continue;
+            }
             if (strpos($url, $this->config['upload_dir']['base']) !== false) {
                 $res_urls[] = $url;
             } else {
