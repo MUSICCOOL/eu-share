@@ -136,7 +136,7 @@ class ProjectController extends BaseController
             }
             $project->imgs        = empty($img_urls) ? '' : json_encode($img_urls);
         }
-        
+
         $project->name        = $this->params['name'];
         $project->intro       = $this->params['intro'];
         $project->type        = $this->params['type'];
