@@ -9,6 +9,16 @@
             <div class="acc-top-left">
                 <p>账户余额&nbsp;&nbsp;(E点币)&nbsp;&nbsp;</p>
                 <h1>{{ user.e_points }}</h1>
+                <p>您当前为:
+                {% if user.vip == 1 %}
+                    <b class="text-info">普通用户</b>
+                {% else %}
+                    <?php
+                        $left_vip_time = ($user['vip_exptime'] - time()) / 24 / 3600;
+                    ?>
+                    <b class="text-primary">会员用户</b>&nbsp;&nbsp;会员有效期剩余 {{ left_vip_time }} 天
+                {% endif %}
+                </p>
             </div>
             <div class="acc-top-right">
                 <a href="/account/recharge" class="btn btn-danger">充值</a>

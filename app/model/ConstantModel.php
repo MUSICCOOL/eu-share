@@ -31,6 +31,8 @@ class ConstantModel extends constant
 
     /** E_points */
     const E_POINTS_NOT_ENOUGH = 10300;
+    const RECHARGE_FAIL = 10301;
+    const RECHARGE_SUCCESS = 10302;
 
     /** Down */
     const DOWN_ERROR = 10400;
@@ -40,6 +42,8 @@ class ConstantModel extends constant
     const CREATE_ORDER_ERROR    = 10501;
     const ALREADY_VIP           = 10501;
     const ALREADY_ORDER_WAITING = 10502;
+    const UPVIP_ERROR           = 10503;
+    const UPVIP_SUCCESS         = 10504;
 
     /** service */
     const MESSAGE_SEND_ERROR     = 10600;
@@ -72,5 +76,9 @@ class ConstantModel extends constant
         self::ALREADY_ORDER_WAITING  => '您尚有未审核的订单',
         self::MESSAGE_SEND_ERROR     => '发送失败',
         self::MESSAGE_SEND_TOO_MATCH => '亲，您今日发送信息过于频繁，请明日再试！',
+        self::RECHARGE_FAIL          => '充值失败',
+        self::RECHARGE_SUCCESS       => '充值成功',
+        self::UPVIP_ERROR            => '升级会员失败',
+        self::UPVIP_SUCCESS          => '升级会员成功'
     ];
 }
