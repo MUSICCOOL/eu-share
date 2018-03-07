@@ -12,14 +12,14 @@ use system\Controller;
 class BaseController extends Controller
 {
     protected $needCheckLogin = [
-        'account' => [],
-        'project' => [
+        'Account' => [],
+        'Project' => [
             'add'      => 'alert',
             'download' => 'alert',
             'doLike' => 'json',
             'doReward' => 'json',
         ],
-        'comment' => [
+        'Comment' => [
             'sendComment' => 'json',
         ],
     ];
@@ -35,7 +35,6 @@ class BaseController extends Controller
     {
         $c = isset($this->params["c"]) ? $this->params["c"] : '';
         $a = isset($this->params["a"]) ? $this->params["a"] : '';
-
         if (isset($this->needCheckLogin[$c]) && (isset($this->needCheckLogin[$c][$a]) || empty($this->needCheckLogin[$c]))) {
             if (empty($_SESSION['username'])) {
                 if ($this->needCheckLogin[$c][$a] == 'json') {
