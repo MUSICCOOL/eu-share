@@ -456,7 +456,7 @@ class Controller
         $res_urls = [];
 
         foreach ($urls as $url) {
-            if (strpos($url, 'http') == 0 || strpos($url, 'ftp://') == 0) {
+            if ((strpos($url, 'http') == 0 || strpos($url, 'ftp://') == 0) && strpos($url, 'images') !== 0) {
                 $res_urls[] = $url;
                 continue;
             }
